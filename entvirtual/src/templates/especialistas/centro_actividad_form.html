@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Registrar Centros de Actividad
+{% endblock title %}
+
+
+{% block content %}
+
+  <!-- <div class="jumbotron" width=20%>
+      <form method="post" >  
+            
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+
+        <hr>
+        
+        <input type="submit" class="btn btn-info" value="Guardar">
+        <a class="btn btn-danger" href="{% url 'centro_actividad_list' %}">Cancelar</a>
+
+      </form>
+  </div> -->
+
+
+  <div class="card card-register mt-5">
+    <!-- <div class="card-header">Registrar Centro de Costo</div> -->
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+          <div class="form-label-group" id="inputEmail" >
+            <span>Centro de Costo</span>
+            {{form.centro_costo}}
+            <!-- <input type="text" id="firstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus"> -->
+            <!-- <label for="firstName">Centro de Costo</label> -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          
+          <div class="form-label-group" id="inputEmail" >
+            <span>Actividad</span>
+            {{form.actividad}}
+            <!-- <input type="text" id="firstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus"> -->
+            <!-- <label for="firstName">Actividad</label> -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label-group" id="inputEmail" >
+            {{form.cuenta}}
+            <!-- <input type="text" id="firstName" class="form-control" placeholder="First name" required="required" autofocus="autofocus"> -->
+            <label for="firstName">N° Cuenta</label>
+          </div>
+        </div>
+
+        <input type="submit" class="btn btn-info" value="Guardar">
+        <a class="btn btn-danger" href="{% url 'centro_actividad_list' %}">Cancelar</a>
+
+
+      </form>
+    </div>
+  </div>
+
+{% endblock content %}

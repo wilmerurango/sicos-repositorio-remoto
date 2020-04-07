@@ -1,0 +1,80 @@
+{% extends 'base.html' %} 
+
+{% block title %}
+    Proveedores Registrados
+{% endblock title %} 
+
+{% block content %}
+
+<a class= "btn btn-success" href= "{% url 'proveedor_view' %}" >Crear Proveedor</a>
+  
+
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+    Registros de Proveedores</div>
+
+  {%if proveedors %}
+  <div class="card-body">
+    <div class="table-responsive">
+
+        <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+            <thead>
+              <tr role="row">
+                  <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">NIt_del_Proveedor</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_del_Proveedor</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cuenta_Retenedora</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Retención_en_%</font></font></th>
+                <!-- <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¿Maneja Iva?</font></font></th> -->
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">¿Distribución_Porcentual?</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dirección</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 38px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Telefono</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">E-Mail</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha_de_Registro</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th> 
+
+              </tr>
+            </thead>
+            <!-- <tfoot>
+              <tr>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código Factura</font></font></th>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Posición</font></font></th>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Oficina</font></font></th>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Años</font></font></th>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha de inicio</font></font></th>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Salario</font></font></th></tr>
+            </tfoot> -->
+            <tbody>              
+              
+             
+    
+              {% for proveedor in proveedors %}  
+              <tr role="row" class="odd">
+                <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{proveedor.id}}</font></font></td>
+                <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{proveedor.nit_prov}}</font></font></td>
+                <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{proveedor.name_prov}}</font></font></td>
+                <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{proveedor.cuenta_reten}}</font></font></td>
+                <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{proveedor.reten}}</font></font></td>
+                <!-- <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{proveedor.meneja_iva}}</font></font></td> -->
+                <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{proveedor.distri_fija}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{proveedor.dir_prov}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{proveedor.tel_prov}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{proveedor.mail_prov}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{proveedor.fecharegistro_prov|date:"SHORT_DATE_FORMAT"}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center><a class= "btn btn-primary" href= "{% url 'proveedor_edit' proveedor.id%}" ><ion-icon name="create"></ion-icon></a></center></font></font></td>
+
+              </tr>
+              {% endfor %}
+
+  {%else%}
+  <div class="alert alert-dark" role="alert">
+      <h2>No hay Registros de Proveedores</h2>
+  </div>
+    
+  {% endif%}
+
+            </tbody>
+          </table></div></div>
+
+{% endblock content%}

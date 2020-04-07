@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Registrar Servicio Medico
+{% endblock title %}
+
+
+{% block content %}
+    <div class="jumbotron" width=20%>
+        <form method="post"> 
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}
+            </table>
+            
+            <input type="submit" class="btn btn-info" value="Guardar">
+            <a class="btn btn-danger" href="{% url 'servicio_medico_list' %}">Cancelar</a>
+        </form>
+    </div>
+
+{% endblock content %}
+
+{% block scripts_local %}
+  <script>  
+    $(function () {  
+    $("#id_fechafact_servm").datetimepicker({  
+      format: 'd/m/Y',  
+      timepicker:false  
+    });  
+    });  
+  </script> 
+{% endblock scripts_local %}
+
+
+
+
+<!-- action="{% url 'fac_especialista_list' %}" -->

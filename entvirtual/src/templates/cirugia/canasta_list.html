@@ -1,0 +1,84 @@
+{% extends 'base_cirugia.html' %}
+
+
+{% block title %}
+    Canasta
+{% endblock title %}
+
+
+{% block content %}
+
+  <a class= "btn btn-success" href= "{% url 'canasta_view' %}" >Crear Canasta<ion-icon name="add"></ion-icon></a>
+  
+
+    <div class="card mb-3">
+            <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Canasta
+                  </div>
+            
+                    <!-- <form>
+                      <input type="search" placeholder="AAAA-MM-DD" name="filtrofechacpp" aria-controls="dataTable">
+                      <input type="search" placeholder="Código" name="filtroidcpp" aria-controls="dataTable">
+                      <button type="submit" name="botonfiltrocpp">Filtrar</button>
+                    </form> -->
+                  {%if canastas %}
+                  <div class="card-body">
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive " >
+                
+                        <div class="row"><div class=" col-sm-12"><table class="table table-bordered dataTable table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <thead>
+                              <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                                <!-- <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Especialidad</font></font></th> -->
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_de_la_Canasta</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Concepto</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Posición</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_Insumo </font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Presentación </font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Costo_Unitario</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Costo_Subtotal</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th>
+                              </tr>
+                            </thead>
+
+                            <tbody>              
+                        
+                                {% for canasta in canastas %}  
+                                <tr role="row" class="odd">
+                                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{canasta.id}}</font></font></td>
+                                    <!-- <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  canasta.tipo_proc}}</font></font></td> -->
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  canasta.nombre_canasta}}</font></font></td>
+                                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{canasta.concepto_canasta}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  canasta.position}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  canasta.nombre_insumo}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  canasta.presentacion}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  canasta.cantidad}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  canasta.costo_und}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  canasta.costo_tot}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center>
+                                      <a class= "btn btn-primary btn-circle" href= "{% url 'canasta_edit' canasta.id%}" ><ion-icon name="create"></ion-icon></a>
+                                      <a class= "btn btn-danger btn-circle" onclick = "return ElimRegistro()" href= "{% url 'canasta_elim' canasta.id%}" ><ion-icon name="trash"></ion-icon></a></center></font></font> 
+
+                                    </td>
+                                    
+                                </tr>
+                                {% endfor %}
+                    
+                {%else%}
+                <div class="alert alert-dark" role="alert">
+                    <h2>No hay Registros </h2>
+                </div>
+                    
+                {% endif%}
+                    
+                                </tbody>
+                          </table>
+                      </div>
+                  </div>
+  
+
+
+{% endblock content %}
+

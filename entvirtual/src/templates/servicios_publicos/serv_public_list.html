@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+  Servicios
+{% endblock title %}
+
+
+{% block content %}
+
+  <a class= "btn btn-success" href= "{% url 'serv_public_view' %}" >Crear Servicio</a>
+
+
+    <div class="card mb-3">
+            <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Servicios
+                  </div>
+            
+                    <!-- <form>
+                      <input type="search" placeholder="AAAA-MM-DD" name="filtrofechacpp" aria-controls="dataTable">
+                      <input type="search" placeholder="Código" name="filtroidcpp" aria-controls="dataTable">
+                      <button type="submit" name="botonfiltrocpp">Filtrar</button>
+                    </form> -->
+
+                  {%if serv_publics %}
+                  <div class="card-body">
+                    <div class="table-responsive">
+                
+                        <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable table table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <thead>
+                              <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">NIT</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_de_Tercero</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_Servicio</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dirección</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Telefono</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">E-mail</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th>
+
+                              </tr>
+                            </thead>
+                            <tbody>              
+                
+                
+                                {% for serv_public in serv_publics %}  
+                                <tr role="row" class="odd">
+                
+                                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{serv_public.id}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   serv_public.nit}}</font></font> </td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   serv_public.nombre_tercero}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   serv_public.nombre_serv}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   serv_public.direccion}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   serv_public.tel}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   serv_public.email}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   serv_public.fecha|date:"SHORT_DATE_FORMAT"}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center><a class= "btn btn-primary btn-circle" href= "{% url 'serv_public_edit' serv_public.id %}" ><ion-icon name="create"></ion-icon></a></center></font></font></td>
+                
+                                </tr>
+                                {% endfor %}
+
+                {%else%}
+                <div class="alert alert-dark" role="alert">
+                    <h2>No hay Servicios Registrados</h2>
+                </div>
+                    
+                {% endif%}
+                
+                                </tbody>
+                            
+                          </table>
+                      </div>
+                  </div>
+  
+{% endblock content %}
+
+
+                                  

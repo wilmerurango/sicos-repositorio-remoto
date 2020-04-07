@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Especialistas Registrados
+{% endblock title %}
+
+{% block content %}
+
+    <a class= "btn btn-success" href= "{% url 'especialista_view' %}" >Crear Especialista</a>
+    
+
+    <div class="card mb-3">
+            
+    <div class="card-header">
+            
+        <i class="fas fa-table"></i>
+        Registros de Especialistas</div>
+        <form>
+            <input type="search" placeholder="Nombre" name="filtronombre">
+            <input type="search" placeholder="Identificación" name="filtroid">
+            <button type="submit" name="botonfiltro">Filtrar</button>
+        </form>
+
+    {%if especialistas %}
+
+    <div class="card-body">
+            
+        <div class="table-responsive">
+            <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable table table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                <thead>
+                <tr role="row">
+                    <th  class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                    <th  class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ID</font></font></th>
+                    <th  class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre</font></font></th>
+                    <th  class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 38px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Apellidos</font></font></th>
+                    <th  class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Telefono</font></font></th>
+                    <th  class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dirección</font></font></th>
+                    <th  class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">E-mail</font></font></th>
+                    <th  class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha_Registro</font></font></th>
+                    <th  class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acciones</font></font></th>
+
+                </tr>
+                </thead>
+                <!-- <tfoot>
+                <tr>
+                    <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código Factura</font></font></th>
+                    <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Posición</font></font></th>
+                    <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Oficina</font></font></th>
+                    <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Años</font></font></th>
+                    <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha de inicio</font></font></th>
+                    <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Salario</font></font></th></tr>
+                </tfoot> -->
+                <tbody>              
+                
+               
+
+                {% for especialista in especialistas %}  
+                <tr role="row" class="odd">
+
+                    <td class="small" class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{especialista.id}}</font></font>
+                    </td>
+                    <td class="small" class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista.id_esp}}</font></font>
+                    </td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista.name_esp}}</font></font>
+                    </td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista.apellidos_esp }}</font></font>
+                    </td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista.tel_esp }}</font></font>
+                    </td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista.dir_esp}}</font></font>
+                    </td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista.mail_esp }}</font></font>
+                    </td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {{  especialista.fechafact_esp|date:"SHORT_DATE_FORMAT" }}</font></font>
+                    </td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center><a class= "btn btn-link" href= "{% url 'especialista_edit' especialista.id %}" ><ion-icon name="create"></ion-icon></a></center></font></font>
+                    </td>
+
+
+                </tr>
+                {% endfor %}
+
+    {%else%}
+        <div class="alert alert-dark" role="alert">
+            <h2>No hay Registros de Especialistas</h2>
+        </div>
+        
+    {% endif%}
+
+                </tbody>
+        </table></div></div>
+
+{% endblock content %}
+
+
+<!-- 
+<td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center> 
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" class="bg-invisible">
+            <label class="btn btn-secondary" active >
+                <input type="radio" name="options" id="option1" autocomplete="off" checked><a class= "btn btn-primary" href= "{% url 'especialista_edit' especialista.id %}" >Editar</a>
+            </label>
+        </div>
+        </center></font></font>
+        </td> -->

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Detalles De Servicios Médicos Registrados
+{% endblock title %}
+
+
+{% block content %}
+
+  <!-- <a class= "btn btn-success" href= "{% url 'servicio_medico_view' %}" >Crear CPP de Servicio Médico</a>
+  <hr> -->
+
+    <div class="card mb-3">
+            <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Detalles CPP de Servicios Médicos
+                  </div>
+  
+                    <!-- <form>
+                      <input type="search" placeholder="AAAA-MM-DD" name="filtrofechacpp" aria-controls="dataTable">
+                      <input type="search" placeholder="Código" name="filtroidcpp" aria-controls="dataTable">
+                      <button type="submit" name="botonfiltrocpp">Filtrar</button>
+                    </form> -->
+                  {%if cpp_servicio_medico_detalles %}
+                  <div class="card-body">
+                    <div class="table-responsive">
+                
+                        <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <thead>
+                              <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código_Servicio_Médico</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Centro_de_Costo</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Actividad</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Subactividad</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha_Periodo</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th>
+
+
+
+
+                              </tr>
+                            </thead>
+                            <!-- <tfoot>
+                              <tr>
+                                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código Factura</font></font></th>
+                                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Posición</font></font></th>
+                                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Oficina</font></font></th>
+                                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Años</font></font></th>
+                                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha de inicio</font></font></th>
+                                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Salario</font></font></th></tr>
+                            </tfoot> -->
+                            <tbody> 
+                              
+                      
+                              {% for cpp_servicio_medico_detalle in cpp_servicio_medico_detalles %}  
+                              <tr role="row" class="odd">
+
+                                  <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_servicio_medico_detalle.id}}</font></font></td>
+                                  <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_servicio_medico_detalle.cpp_servicio_medico.id}}</font></font></td>
+                                  <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  cpp_servicio_medico_detalle.centro_costo.name_ccos}}</font></font></td>
+                                  <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  cpp_servicio_medico_detalle.actividad.name_act}}</font></font></td>
+                                  <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  cpp_servicio_medico_detalle.sub_activity.name_subactivity}}</font></font></td>
+                                  <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  cpp_servicio_medico_detalle.valor_sm_detalle}}</font></font></td>
+                                  <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  cpp_servicio_medico_detalle.fecha_sm_detalle|date:"SHORT_DATE_FORMAT"}}</font></font></td>
+                                  <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font><center><a class= "btn btn-primary" href= "{% url 'cpp_servicio_medico_detalle_edit' cpp_servicio_medico_detalle.id %}" ><ion-icon name="create"></ion-icon></a></center></font></td>
+
+
+
+                              </tr>
+                              {% endfor %}
+                  
+                {%else%}
+                <div class="alert alert-dark" role="alert">
+                    <h2>No hay CPP de Servicios Médicos Registrados </h2>
+                </div>
+                    
+                {% endif%}      
+                
+                    
+                            </tbody>
+                          </table>
+                      </div>
+                  </div>
+  
+
+
+{% endblock content %}
+

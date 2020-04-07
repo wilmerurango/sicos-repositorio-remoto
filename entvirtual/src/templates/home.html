@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static%}
+
+{% block content %}
+
+
+
+
+<div class="alert alert-success" role="alert">
+    <h4>¡BIENVENIDO!</h4>
+    <hr>
+    Usted ha Iniciado Sesión como: <h5 class="d-inline">{{user.username| upper}}</h5> 
+</div>
+
+{% block nabvar%}
+
+{% endblock nabvar%}
+
+
+{% block menu %}
+
+{% endblock menu %}
+
+
+<div class="container-fluid">
+
+    <div class="row row-cols-2">
+
+        <div class="col">
+            <div class="jumbotron"  width=10%>
+                <h3>¿ QUE DESEAS HACER HOY ?</h3>
+                <hr>
+                <a class="btn btn-primary" href="{% url 'base' %}">Cuentas por Pagar</a>
+                <a class="btn btn-primary" href="{% url 'base_cirugia' %}">Procedimientos Quirurgicos</a>
+        
+            </div>
+    
+        </div>
+    
+    
+        <div >
+            <center>
+                <h1>SICOS</h1>
+            </center>
+            <hr>
+            <hr>
+    
+            <h2><center>Sistema de Costos de la Fundación Clínica del Río</center></h2>
+    
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock content%} 

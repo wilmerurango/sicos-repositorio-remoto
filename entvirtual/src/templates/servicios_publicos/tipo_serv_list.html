@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+  Servicios
+{% endblock title %}
+
+
+{% block content %}
+
+  <a class= "btn btn-success" href= "{% url 'tipo_serv_view' %}" >Crear Tipo de Servicio</a>
+
+
+    <div class="card mb-3">
+            <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Tipo de Servicios
+                  </div>
+
+                  {%if tipo_servs %}
+                  <div class="card-body">
+                    <div class="table-responsive">
+                
+                        <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable table table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <thead>
+                              <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tipo de Servicio</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Descripción</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th>
+
+                              </tr>
+                            </thead>
+                            <tbody>              
+                
+                
+                                {% for tipo_serv in tipo_servs %}  
+                                <tr role="row" class="odd">
+                
+                                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{tipo_serv.id}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   tipo_serv.nombre_tipo}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   tipo_serv.descrip }}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center><a class= "btn btn-primary btn-circle" href= "{% url 'tipo_serv_edit' tipo_serv.id %}" ><ion-icon name="create"></ion-icon></a></center></font></font></td>
+                
+                                </tr>
+                                {% endfor %}
+
+                {%else%}
+                <div class="alert alert-dark" role="alert">
+                    <h2>No hay Registros</h2>
+                </div>
+                    
+                {% endif%}
+                
+                                </tbody>
+                            
+                          </table>
+                      </div>
+                  </div>
+  
+{% endblock content %}
+
+
+                                  

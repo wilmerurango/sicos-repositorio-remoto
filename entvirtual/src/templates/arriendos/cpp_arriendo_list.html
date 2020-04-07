@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load humanize %} 
+
+
+{% block title %}
+  CPP Arriendos
+{% endblock title %}
+
+
+{% block content %}
+
+  <a class= "btn btn-success" href= "{% url 'cpp_arriendo_view' %}" >Crear CPP de Arriendo</a>
+  <!-- <a class= "btn btn-success" href= "{% url 'cpp_arriendo_detalle_view' %}" >Crear CPP detallado de Arriendo</a> -->
+
+ 
+
+    <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <i class="fas fa-table"></i>
+            Registros de CPP por concepto de Arriendos 
+
+          </div>
+          
+          <a class= "btn btn-success" href= "{% url 'report_arriendo_excel'  %}" ><i class="fas fa-file-excel"></i> Exportar</a>
+				</div>
+
+                  
+            
+                    <!-- <form>
+                      <input type="search" placeholder="AAAA-MM-DD" name="filtrofechacpp" aria-controls="dataTable">
+                      <input type="search" placeholder="Código" name="filtroidcpp" aria-controls="dataTable">
+                      <button type="submit" name="botonfiltrocpp">Filtrar</button>
+                    </form> -->
+                  {%if cpp_arriendos %}
+                  <div class="card-body">
+                    <div class="table-responsive">
+                
+                        <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable table table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <thead class="p-3 mb-2 bg-info">
+                              <tr role="row">
+                                <th class="sorting align-middle text-center color-wilmer" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 100px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><p class="text-white">123456789</p> </font></font></th>
+                                <th class="sorting_asc align-middle text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 30px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                                <th class="sorting_asc align-middle text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">NIT_Empresa</font></font></th>
+                                <th class="sorting_asc align-middle text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_Empresa</font></font></th>
+                                <th class="sorting_asc align-middle text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Retención</font></font></th>
+                                <th class="sorting_asc align-middle text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor_Contabilizado</font></font></th>
+                                <th class="sorting_asc align-middle text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 150px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha</font></font></th>
+
+                              </tr>
+                            </thead >
+
+                            <tbody >             
+                
+                                {% for cpp_arriendo in cpp_arriendos %}  
+                                <tr role="row" class="odd">
+
+                                <td class="sorting_1 align-middle text-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center> 
+                                    <div class="btn-group-toggle">  
+                                      <a name="botonreplica" class= "btn btn-dark btn-circle" href= "{% url 'cpp_arriendo_detalle_listadetal' cpp_arriendo.id %}" ><i class="fas fa-eye"></i></a>   
+                                      <a class= "btn btn-danger btn-circle " href= "{% url 'reporteCPP' cpp_arriendo.id %}" ><i class="fas fa-file-pdf"></i></a>   
+                                    </div>
+                                  </center></font></font>
+                                </td>
+                      
+                                <td  class="sorting_1 align-middle text-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_arriendo.id}}</font></font></td>
+                                <td  class="sorting_1 align-middle text-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  cpp_arriendo.arriendo.id_arri}}</font></font></td>
+                                <td class="sorting_1 align-middle text-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  cpp_arriendo.arriendo.name_arri}}</font></font></td>
+                                <td class="sorting_1 align-middle text-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${{  cpp_arriendo.valor_cpp_arri|intcomma}}</font></font></td>
+
+                                <td class="sorting_1 align-middle text-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${{  cpp_arriendo.valor_cont|intcomma}}</font></font></td>
+                                <td class="sorting_1 align-middle text-center"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   cpp_arriendo.fecha_cpp_arri|date:"SHORT_DATE_FORMAT"}}</font></font></td>
+                                
+                
+                                </tr>
+                                {% endfor %}
+                
+                {%else%}
+                <div class="alert alert-dark" role="alert">
+                 <h2>No hay CPP de Arriendos Registrados</h2>
+                </div>
+                    
+                {% endif%}
+                
+                                </tbody>
+                            
+                          </table>
+                      </div>
+                  </div>
+  
+{% endblock content %}
+
+
+                                  
+<!-- <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center><a class= "btn btn-link" href= "{% url 'cpp_arriendo_detalle_listadetal' cpp_arriendo.id %}" ><p class="text-dark"><ion-icon name="eye"></ion-icon></p></a></center></font></font></td> -->
+<!-- <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Crear</font></font></th> -->

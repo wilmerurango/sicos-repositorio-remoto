@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+
+{% block title %}
+  CPP   de Servicios Públicos
+{% endblock title %}
+
+
+{% block content %}
+
+  <a class= "btn btn-success" href= "{% url 'cpp_serv_public_view' %}" >Crear CPP Servicio</a>
+
+
+    <div class="card mb-3">
+            <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    CPP de Servicios Públicos
+                  </div>
+            
+                    <!-- <form>
+                      <input type="search" placeholder="AAAA-MM-DD" name="filtrofechacpp" aria-controls="dataTable">
+                      <input type="search" placeholder="Código" name="filtroidcpp" aria-controls="dataTable">
+                      <button type="submit" name="botonfiltrocpp">Filtrar</button>
+                    </form> -->
+
+                  {%if cpp_serv_publics %}
+                  <div class="card-body">
+                    <div class="table-responsive">
+                
+                        <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable table table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <thead>
+                              <tr role="row">
+                                <th class="sorting align-middle text-center color-wilmer" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 100px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><p class="text-white">123456789</p> </font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_del_Servicio</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor Ingresado</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">%_Iva</font></font></th>           
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Retención</font></font></th>                                                 
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Costo Registrado</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha</font></font></th>
+
+                              </tr>
+                            </thead>
+                            <tbody>              
+                
+                
+                                {% for cpp_serv_public in cpp_serv_publics %}  
+                                <tr role="row" class="odd">
+                                  <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 
+                                    <center>
+                                      <a class= "btn btn-dark btn-circle" href= "{% url 'cpp_servi_detalle_list' cpp_serv_public.id %}" ><i class="fas fa-eye"></i></a>
+                                      <a class= "btn btn-danger btn-circle" href= "{% url 'reporte_pdf_servicios' cpp_serv_public.id %}" ><i class="fas fa-file-pdf"></i></a> 
+                                    </center></font></font>
+                                  </td>
+                                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_serv_public.id}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   cpp_serv_public.serv_public}}</font></font> </td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   cpp_serv_public.costo|intcomma}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   cpp_serv_public.iva|intcomma}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   cpp_serv_public.reten|intcomma}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   cpp_serv_public.total|intcomma}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   cpp_serv_public.fecha|date:"SHORT_DATE_FORMAT"}}</font></font></td>
+                                    
+                
+                                </tr>
+                                {% endfor %}
+
+                {%else%}
+                <div class="alert alert-dark" role="alert">
+                    <h2>No hay Registros</h2>
+                </div>
+                    
+                {% endif%}
+                
+                                </tbody>
+                            
+                          </table>
+                      </div>
+                  </div>
+  
+{% endblock content %}
+
+
+                                  

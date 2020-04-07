@@ -1,0 +1,80 @@
+{% extends 'base.html' %} 
+
+{% block title %}
+    CPP  detallados de Proveedores Registrados
+{% endblock title %} 
+
+{% block content %}
+
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+    Registros CPP detallados de los Proveedores</div>
+
+  {%if cpp_proveedor_subdetalles %}
+  <div class="card-body">
+    <div class="table-responsive">
+
+        <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable table table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+            <thead>
+              <tr role="row">
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Número_de_CPP</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Centro_Costos</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nit_Proveedor</font></font></th>
+                <!-- <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad_Producto</font></font></th> -->
+                <!--  <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad_Flete</font></font></th> --> 
+                <!-- <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor_Flete</font></font></th> --> 
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_Cuenta</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Número_Cuenta</font></font></th>
+                <!--<th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">%_Distribución</font></font></th> --> 
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Centro_Costo</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Costo</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cuenta_Iva</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor_Iva</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">valor_Cuenta_Contra</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Naturaleza_de_la_Cuenta</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha_del_Periodo</font></font></th>
+
+              </tr>
+            </thead>
+
+            <tbody>  
+
+                {% for cpp_proveedor_subdetalle in cpp_proveedor_subdetalles %}  
+                <tr role="row" class="odd">
+                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ cpp_proveedor_subdetalle.id }}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.cpp_proveedor}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.centro_costo}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.proveedor}}</font></font></td>
+                    <!-- <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.cant_produc}}</font></font></td> -->
+                    <!-- <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.cant_flete}}</font></font></td> -->
+                    <!-- <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.valor_flete}}</font></font></td> -->
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.nombre_cuenta}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.cuenta}}</font></font></td>
+                    <!-- <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.distrib}}</font></font></td> -->
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.name_centro_costo}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.costo}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.cuenta_iva}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.valor_iva}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.valor_cuenta_contra}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.naturaleza_cuenta}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_subdetalle.fecha_cpp_prov_detal|date:"SHORT_DATE_FORMAT"}}</font></font></td>
+
+                </tr>
+                {% endfor %}
+                
+  {%else%}
+  <div class="alert alert-dark" role="alert">
+      <h2>No hay Registros cpp detallados de Proveedores</h2>
+  </div>
+      
+  {% endif%}         
+
+             
+            </tbody>
+          </table></div></div>
+
+{% endblock content%}
+
+

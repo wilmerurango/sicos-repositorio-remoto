@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Registrar Cuenta por Pagar
+{% endblock title %}
+
+
+{% block content %}
+
+  <div class="jumbotron col-sm-3" width=20%>
+      <form method="post" > 
+          {% csrf_token %}
+          <table>
+              {{form.as_table}}
+          </table>
+          
+          <input type="submit" class="btn btn-info" value="Guardar">
+          <a class="btn btn-danger" href="{% url 'fac_especialista_list' %}">Cancelar</a>
+      </form>
+  </div>
+
+  
+
+{% endblock content %}
+
+
+{% block scripts_local %}
+  <script>  
+    $(function () {  
+    $("#id_fechafac_esp").datetimepicker({  
+      format: 'd/m/Y',  
+      timepicker:false  
+    });  
+    });  
+  </script> 
+{% endblock scripts_local %}
+
+
+
+          <!-- <a class= "btn btn-success" href= "{% url 'fac_especialista_detallecrear_view' %}" >Facturar Detalle</a>  -->

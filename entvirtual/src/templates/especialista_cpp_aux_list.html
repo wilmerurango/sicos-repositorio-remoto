@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+
+{% block title %}
+  Lista de Especialistas y sus CPP 
+{% endblock title %}
+
+
+{% block content %}
+    <a class= "btn btn-success" href= "{% url 'especialista_cpp_aux_view' %}" >Crear CPP-Especialistas</a> 
+    
+  
+    <div class="card mb-3">
+            
+        <div class="card-header">
+                
+            <i class="fas fa-table"></i>
+            CPP Especialista</div>
+        {%if especialista_cpp_auxs %}
+        <div class="card-body">
+                
+            <div class="table-responsive">
+                <!-- <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">mostrar </font></font><select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">10</font></font></option><option value="25"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">25</font></font></option><option value="50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">50</font></font></option><option value="100"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">100</font></font></option></select><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> entradas</font></font></label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Buscar:</font></font><input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div> -->
+                <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable table table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                    <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ID</font></font></th>
+                        <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ID_Especialista</font></font></th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_Especialista</font></font></th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tipo_Contabilidad</font></font></th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Monto_Fijo_Devengado</font></font></th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Retención</font></font></th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th>
+
+                    </tr>
+                    </thead>
+                    <!-- <tfoot>
+                    <tr>
+                        <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código Factura</font></font></th>
+                        <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Posición</font></font></th>
+                        <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Oficina</font></font></th>
+                        <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Años</font></font></th>
+                        <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha de inicio</font></font></th>
+                        <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Salario</font></font></th></tr>
+                    </tfoot> -->
+                    <tbody>              
+                    
+                    
+    
+                    {% for especialista_cpp_aux in especialista_cpp_auxs %}  
+                    <tr role="row" class="odd">
+                        <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista_cpp_aux.id}}</font></font></td>
+                        <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista_cpp_aux.contrato.especialista.id_esp}}</font></font></td>
+                        <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista_cpp_aux.contrato.especialista.name_esp}} {{  especialista_cpp_aux.contrato.especialista.apellidos_esp}}</font></font></td>
+                        <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista_cpp_aux.tipo_fact.name_fact}}</font></font></td>
+                        <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista_cpp_aux.contrato.valor|intcomma}}</font></font></td>
+                        <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  especialista_cpp_aux.especialista.reten}}</font></font></td>
+                        <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center><a class= "btn btn-link" href= "{% url 'especialista_cpp_aux_edit' especialista_cpp_aux.id %}" ><ion-icon name="create"></ion-icon></a></center></font></font></td>
+
+                    </tr>
+                    {% endfor %}
+    
+        {%else%}
+        <div class="alert alert-dark" role="alert">
+            <h2>No hay CPP- Especialistas Registrados</h2>
+        </div>
+            
+        {% endif%}
+    
+                    </tbody>
+            </table></div></div>
+
+
+{% endblock content %}
+

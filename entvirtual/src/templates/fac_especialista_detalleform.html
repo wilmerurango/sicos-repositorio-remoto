@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+
+{% block title %}
+  CPP Detalle
+{% endblock title %}
+
+
+{% block content %}
+<a class="btn btn-link" > <ion-icon size="large" name="hand"></ion-icon> El número de esta factura es <strong>{{tempos.id|upper}}</strong>  y corresponde al Especialista <strong>{{tempos.especialista.name_esp|upper}} {{tempos.especialista.apellidos_esp|upper}}</strong> </a>
+
+  <!-- <div class="jumbotron" width=20%> -->
+
+    <form method="post" id="fac_especialista_detalleform" data-actividades-url="{% url 'ajax_load_actividad' %}"> 
+      {% csrf_token %}
+
+      <div class="p-3 mb-2 bg-secondary col-sm-11">
+
+        <div class="d-inline-block col-sm-3">
+          <div  class="d-inline-block col-sm-12" > <span class="small"> <strong>Cod. Factura: </strong> </span></div>
+          <div  class="d-inline-block col-sm-14" >{{form.fac_especialista}} </div>
+        </div>
+
+        <div class="d-inline-block col-sm-3">
+          <div  class="d-inline-block col-sm-12" > <span class="small"> <strong>Fecha: </strong> </span></div>
+          <div  class="d-inline-block col-sm-14" >{{form.fechafac_detalle}} </div>
+        </div>
+
+        <div  class="d-inline-block col-sm-3">
+          <div class="d-inline-block col-sm-12" > <span class="small"> <strong>Valor-Cantidad:</strong> </span></div>
+          <div class="d-inline-block col-sm-14">{{form.valor}} </div>
+        </div>
+
+        <div  class="d-inline-block col-sm-2">
+          <!-- <div class="d-inline-block col-sm-12" > <span class="small"> <strong>parametro ?:</strong> </span></div> -->
+          <div class="d-inline-block col-sm-14">
+
+            <!-- <div class="form-check"> -->
+              <label  for="{{ form.parametrizado.parametrizado}}"> {{form.parametrizado.label}}</label>
+              {{form.parametrizado}}
+            <!-- </div> -->
+          </div>
+        </div>
+
+      </div>
+
+      <div class="p-3 mb-2 bg-info col-sm-8">
+
+          <div >
+            <div  class="d-inline-block col-sm-4" > <span class="small"><strong>Tipo Facturación: </strong> </span></div>
+            <div  class="d-inline-block col-sm-7" >{{form.tipo_fact}}</div>
+          </div>
+
+          <div >
+            <div  class="d-inline-block col-sm-4" > <span class="small"><strong>C. Costo: </strong> </span></div>
+            <div  class="d-inline-block col-sm-7" >{{form.centro_costo}} </div>
+          </div>
+
+          <div  >
+            <div class="d-inline-block col-sm-4" > <span class="small"> <strong>Actividad:</strong> </span></div>
+            <div class="d-inline-block col-sm-7">{{form.centro_actividad}} </div>
+          </div>
+
+      </div>
+
+    <!-- </div> -->
+    
+      <input type="submit" class="btn btn-info" value="Guardar">
+      <a class="btn btn-danger" href="{% url 'fac_especialista_list' %}">Cancelar</a>
+   
+    </form>
+    
+    <p></p>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script>
+      $("#id_centro_costo").change(function () {
+        var url = $("#fac_especialista_detalleform").attr("data-actividades-url");  // get the url of the `load_cities` view
+        var centro_costoId = $(this).val();  // get the selected country ID from the HTML input
+
+        $.ajax({                       // initialize an AJAX request
+          url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+          data: {
+            'centro_costo': centro_costoId       // add the country id to the GET parameters
+          },
+          success: function (data) {   // `data` is the return of the `load_cities` view function
+            $("#id_centro_actividad").html(data);  // replace the contents of the city input with the data that came from the server
+          }
+        });
+      });
+    </script>
+  </div>
+<!-- ============================ -->
+
+
+
+<div class="card mb-3">
+
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <div>
+      <i class="fas fa-table"></i>
+      Registros de Facturacion 
+
+    </div>
+
+    <a class="btn btn-danger btn-sm color-wilmer" ><h4>Total: $ {{ subtotals }}</h4></a>
+
+  </div>
+
+  {%if fac_especialista_detalles %}
+  <div class="card-body">
+
+    <div class="table-responsive">
+        <div ><div ><table class="table table-bordered dataTable table table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+            <thead class="p-3 mb-2 bg-info">
+              <tr role="row">
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código_Factura</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_del_Especialista</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Centro_de_Costo</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Actividad</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 38px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Grupo_Actividad</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tipo_CPP</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor_Costo</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha_del_Periodo</font></font></th> 
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th> 
+
+              </tr>
+            </thead>
+
+            <tbody class="p-3 mb-2 bg-light">              
+              
+              
+    
+              {% for fac_especialista_detalle in fac_especialista_detalles %}  
+
+              <tr role="row" class="odd">
+                <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.id}}</font></font></td>
+                <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.fac_especialista.id}}</font></font></td>
+                <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.fac_especialista.especialista.name_esp}}</font></font></td>
+                <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.centro_costo.name_ccos}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.centro_actividad.actividad.name_act}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.centro_actividad.actividad.sub_activity.name_subactivity}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.tipo_fact.name_fact}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.valor|intcomma}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.fac_especialista.fechafac_esp|date:"SHORT_DATE_FORMAT"}}</font></font> </td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center><a class= "btn btn-primary" href= "{% url 'fac_especialista_detalle_edit' fac_especialista_detalle.id %}" >Editar</a></center></font></font></td>
+
+              </tr>
+              {% endfor %}
+
+              {%else%}
+                <div class="alert alert-dark" role="alert">
+                  <h2>No hay Registros de Detalles de Facturacion </h2>
+                </div>
+              {% endif%}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+<!-- ==================================== -->
+
+{% endblock content %}
+
+
+{% block scripts_local %}
+  <script>  
+    $(function () {  
+    $("#id_fechafac_detalle").datetimepicker({  
+      format: 'd/m/Y',  
+      timepicker:false  
+    });  
+    });  
+  </script> 
+{% endblock scripts_local %}

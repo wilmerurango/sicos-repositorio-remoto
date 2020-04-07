@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% comment %} {% load staticfiles%} {% endcomment %}
+
+{% block title %}
+    Eliminar
+{% endblock title %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+       <h3>Deseea ELIMINAR el registro de {{ object.name_esp}}</h3>
+        <button class="btn btn-danger" type="submit">Sí, Eliminar</button>
+        <a class="btn btn-default" href="{% url 'especialistas_list' %}">Cancelar</a>
+    </form>
+{% endblock content %}

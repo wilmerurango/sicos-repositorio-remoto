@@ -1,0 +1,80 @@
+{% extends 'base.html' %} 
+
+{% block title %}
+    CPP  detallados de Proveedores Registrados
+{% endblock title %} 
+
+{% block content %}
+
+<!-- <a class= "btn btn-success" href= "{% url 'cpp_proveedor_view' %}" >Crear cpp de Proveedor</a>
+    <hr> -->
+
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+    Registros CPP detallados de los Proveedores</div>
+    
+  {%if cpp_proveedor_detalles %}
+  <div class="card-body">
+    <div class="table-responsive">
+
+        <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable table table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+            <thead>
+              <tr role="row">
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                <!-- <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Categoria</font></font></th> -->
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">N°_de_la_CPP</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Centro_de_Costos</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Producto</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad_Producto</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor_Producto</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cantidad_Flete</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor_Flete</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha_del_Periodo</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th> 
+
+              </tr>
+            </thead>
+            <!-- <tfoot>
+              <tr>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código Factura</font></font></th>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Posición</font></font></th>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Oficina</font></font></th>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Años</font></font></th>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha de inicio</font></font></th>
+                <th rowspan="1" colspan="1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Salario</font></font></th></tr>
+            </tfoot> -->
+            <tbody>     
+               
+
+                {% for cpp_proveedor_detalle in cpp_proveedor_detalles %}  
+                <tr role="row" class="odd">
+                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ cpp_proveedor_detalle.id }}</font></font></td>
+                    <!-- <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_detalle.categoria}}</font></font></td> -->
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_detalle.cpp_proveedor.id}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_detalle.centro_costo}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_detalle.producto.nombre}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_detalle.cant_produc}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_detalle.valor_produc}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_detalle.cant_flete}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_detalle.valor_flete}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{cpp_proveedor_detalle.fecha_cpp_prov_detal|date:"SHORT_DATE_FORMAT"}}</font></font></td>
+                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center><a class= "btn btn-danger" href= "{% url 'cpp_prov_detal_edit'  cpp_proveedor_detalle.id %}" ><ion-icon name="create"></ion-icon></a></center></font></font></td>
+
+                </tr>
+                {% endfor %}
+                
+                {%else%}
+                <div class="alert alert-dark" role="alert">
+                    <h2>No hay Registros cpp detallados de Proveedores</h2>
+                </div>
+                   
+                {% endif%}         
+              
+             
+            </tbody>
+          </table></div></div>
+
+{% endblock content%}
+
+

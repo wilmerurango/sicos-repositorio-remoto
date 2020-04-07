@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Registro Cuentas Retenciones
+{% endblock title %}
+
+
+{% block content %}
+
+  <div class="jumbotron" width=20%>
+      <form method="post" > 
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}
+            </table>
+            <hr>
+            <input type="submit" class="btn btn-info" value="Guardar">
+            <a class="btn btn-danger" href="{% url 'cuenta_reten_list' %}">Cancelar</a>
+          
+
+         
+      </form>
+  </div>
+
+{% endblock content %}

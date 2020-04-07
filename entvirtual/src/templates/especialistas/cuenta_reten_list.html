@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Cuentas de Retencion
+{% endblock title %}
+
+
+{% block content %}
+
+  <a class= "btn btn-success" href= "{% url 'cuenta_reten_view' %}" >Crear Cuenta de Retencion</a>
+
+    <div class="card mb-3">
+            <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Cuentas de Retencion
+                  </div>
+
+                  {%if cuenta_retens %}
+                  <div class="card-body">
+                    <div class="table-responsive">
+                
+                        <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable table table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <thead>
+                              <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Especialista</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_de_Cuenta</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">N°_Cuenta</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Porcentaje_de_Retención</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th>
+                            </tr>
+                            </thead>
+                           
+                            <tbody>              
+                
+                                {% for cuenta_reten in cuenta_retens %}  
+                                <tr role="row" class="odd">
+                
+                                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center>{{cuenta_reten.id }}</center></font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center>{{   cuenta_reten.contrato}}</center> </font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center>{{   cuenta_reten.name_cuenta }}</center> </font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center> {{   cuenta_reten.num_cuenta  }}</center></font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center>{{   cuenta_reten.porc_retencion }} %</center> </font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center><a class= "btn btn-link" href= "{% url 'cuenta_reten_edit' cuenta_reten.id %}" > <ion-icon name="create"></ion-icon></a></center></font></font></td>
+                                </tr>
+                                {% endfor %}
+
+                {%else%}
+                <div class="alert alert-dark" role="alert">
+                    <h2>No hay Cuentas de Retencion Registradas</h2>
+                </div>
+                    
+                {% endif%}
+                
+                                </tbody>
+                            
+                          </table>
+                      </div>
+                  </div>
+  
+{% endblock content %}
+
+
+                                  

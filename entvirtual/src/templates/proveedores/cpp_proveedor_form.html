@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Registrar CPP de Proveedores
+{% endblock title %}
+
+
+{% block content %}
+
+  <form  method="post" name ="form_proveedor"> 
+      {% csrf_token %}
+
+      <table class="egt">
+
+        <tr >
+          <td >
+            <div class="form-group" >
+              <label  for="{{ form.proveedor.name_prov}}"> {{form.proveedor.label}}</label>
+              {{form.proveedor}}
+            </div>
+          </td>
+
+
+          <td >
+            <div class="form-group" >
+              <label  for="{{ form.fecha_cpp_prov.fecha_cpp_prov}}"> {{form.fecha_cpp_prov.label}}</label>
+              {{form.fecha_cpp_prov}}
+            </div>
+          </td>
+
+
+          <td>
+            <center>
+              <button type="button" class="btn btn-success" onclick="mostrar()">Colocar Valor</button>
+            </center>
+          </td>
+
+          <td  id ="produc" >
+            <div class="form-group" >
+              <label  for="{{ form.producto.nombre}}"> {{form.producto.label}}</label>
+              {{form.producto}}
+            </div>
+          </td>
+
+          <td  id ="produc2">
+            <div class="form-group" >
+              <label  for="{{ form.valor_factura.valor_factura}}"> {{form.valor_factura.label}}</label>
+              {{form.valor_factura}}
+            </div>
+          </td>
+
+        </tr>
+
+        <tr  id ="produc">
+          <td>
+            <label  for="{{ form.aire_medicinal.aire_medicinal}}"> {{form.aire_medicinal.label}}</label>
+          </td>
+          <td>
+            {{form.aire_medicinal}}
+          </td>
+        </tr>
+
+        <tr >
+          <td>
+            <label  for="{{ form.reten.reten}}"> {{form.reten.label}}</label>
+          </td>
+          <td>
+            {{form.reten}}
+          </td>
+        </tr>
+
+        <tr >
+          <td>
+            <label  for="{{ form.valor_cpp_prov.valor_cpp_prov}}"> {{form.valor_cpp_prov.label}}</label>
+          </td>
+          <td>
+            {{form.valor_cpp_prov}}
+          </td>
+        </tr>
+
+
+
+      </table>
+
+
+
+    
+
+      <p></p>
+
+      <input type="submit" class="btn btn-info" value="Guardar">
+      <a class="btn btn-danger" href="{% url 'cpp_proveedor_list' %}">Cancelar</a>
+      
+  </form>
+
+{% endblock content %}
+
+{% block scripts_local %}
+  <script>  
+    $(function () {  
+    $("#id_fecha_cpp_prov").datetimepicker({  
+      format: 'd/m/Y',  
+      timepicker:false  
+    });  
+    });  
+  </script> 
+{% endblock scripts_local %}
+

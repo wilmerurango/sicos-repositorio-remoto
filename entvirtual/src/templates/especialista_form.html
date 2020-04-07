@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Registrar Especialista
+{% endblock title %}
+
+
+{% block content %}
+<div class="jumbotron" width=20%>
+    <form method="post">
+        {% csrf_token %}
+        <table class=" col-sm-6">
+            {{form.as_table}}
+        </table>
+        
+        <input type="submit" class="btn btn-info" value="Guardar">
+        <!-- <a type="submit" class="btn btn-primary" href="{% url 'especialistas_list' %}">Guardar</a> -->
+        <a class="btn btn-danger" href="{% url 'especialistas_list' %}">Cancelar</a>
+    </form>
+</div>
+
+
+{% endblock content %}
+
+
+{% block scripts_local %}
+  <script>  
+    $(function () {  
+    $("#id_fechafact_esp").datetimepicker({  
+      format: 'd/m/Y',  
+      timepicker:false  
+    });  
+    });  
+  </script> 
+{% endblock scripts_local %}

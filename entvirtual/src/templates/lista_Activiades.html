@@ -1,0 +1,6 @@
+<option value="" >------</option>
+{% for centro_actividad in centro_actividades %}
+<option value="{{ centro_actividad.pk }}">{{ centro_actividad.actividad.name_act }}</option>
+{% endfor %}
+
+

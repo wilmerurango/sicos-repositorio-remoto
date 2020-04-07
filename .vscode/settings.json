@@ -1,0 +1,14 @@
+{
+    // "python.pythonPath": "entvirtual\\Scripts\\python.exe",
+    // "python.pythonPath": "C:\\Users\\ADCOSTOS\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    // "python.pythonPath":"C:\\ProgramData\\Anaconda3\\python.exe",
+    // "python.pythonPath": "entvirtual\\Scripts\\python.exe",
+    "python.envFile": "${workspaceRoot}/.env",
+    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
+    "git.ignoreLimitWarning": true,
+    // "python.pythonPath": "C:\\Users\\ADCOSTOS\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    // "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
+    // "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
+    // "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",  
+    
+}

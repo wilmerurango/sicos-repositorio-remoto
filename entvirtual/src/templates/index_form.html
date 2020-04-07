@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    CPP Detalle
+{% endblock title %}
+
+
+{% block content %}
+
+  <div class="jumbotron" width=20%>
+    <form method="post"> 
+        {% csrf_token %}
+
+        <!-- <table>
+            {{form.as_table}}
+        </table> -->
+
+        <div class="p-3 mb-2 bg-secondary col-sm-8">
+
+          <div class="d-inline-block col-sm-3">
+            <div  class="d-inline-block col-sm-12" > <span class="small"> <strong>Cod. Factura: </strong> </span></div>
+            <div  class="d-inline-block col-sm-14" >{{form.fac_especialista}} </div>
+          </div>
+  
+          <div class="d-inline-block col-sm-4">
+            <div  class="d-inline-block col-sm-12" > <span class="small"> <strong>Fecha: </strong> </span></div>
+            <div  class="d-inline-block col-sm-14" >{{form.fechafac_detalle}} </div>
+          </div>
+  
+          <div  class="d-inline-block col-sm-4">
+            <div class="d-inline-block col-sm-12" > <span class="small"> <strong>Valor-Cantidad:</strong> </span></div>
+            <div class="d-inline-block col-sm-14">{{form.valor}} </div>
+          </div>
+  
+        </div>
+  
+        <div class="p-3 mb-2 bg-info col-sm-8">
+  
+            <div >
+              <div  class="d-inline-block col-sm-4" > <span class="small"><strong>Tipo Facturación: </strong> </span></div>
+              <div  class="d-inline-block col-sm-7" >{{form.tipo_fact}}</div>
+            </div>
+  
+            <div >
+              <div  class="d-inline-block col-sm-4" > <span class="small"><strong>C. Costo: </strong> </span></div>
+              <div  class="d-inline-block col-sm-7" >{{form.centro_costo}} </div>
+            </div>
+  
+            <div  >
+              <div class="d-inline-block col-sm-4" > <span class="small"> <strong>Actividad:</strong> </span></div>
+              <div class="d-inline-block col-sm-7">{{form.centro_actividad}} </div>
+            </div>
+  
+        </div>
+    
+          <br>
+          <input type="submit" class="btn btn-info" value="Guardar">
+          <a class="btn btn-danger" href="javascript: history.go(-1)">Cancelar</a>
+      </form>
+  </div>
+
+</table>
+
+
+{% endblock content %}
+
+{% block scripts_local %}
+  <script>  
+    $(function () {  
+    $("#id_fechafac_detalle").datetimepicker({  
+      format: 'd/m/Y',  
+      timepicker:false  
+    });  
+    });  
+  </script> 
+{% endblock scripts_local %}
+

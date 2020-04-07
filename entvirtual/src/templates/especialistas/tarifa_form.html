@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Registro de Tarifas
+{% endblock title %}
+
+
+{% block content %}
+<div class="jumbotron" width=20%>
+    <form method="post">
+        {% csrf_token %}
+        <table class=" col-sm-6">
+            {{form.as_table}}
+        </table>
+        
+        <input type="submit" class="btn btn-info" value="Guardar">
+        <a class="btn btn-danger" href="{% url 'tarifa_list' %}">Cancelar</a>
+    </form>
+</div>
+
+{% endblock content %}
+
+
+{% block scripts_local %}
+  <script>  
+    $(function () {  
+    $("#id_fecha_inicio").datetimepicker({  
+      format: 'd/m/Y',  
+      timepicker:false  
+    });  
+    });  
+  </script> 
+
+  <script>  
+    $(function () {  
+    $("#id_fecha_final").datetimepicker({  
+      format: 'd/m/Y',  
+      timepicker:false  
+    });  
+    });  
+  </script> 
+
+{% endblock scripts_local %}

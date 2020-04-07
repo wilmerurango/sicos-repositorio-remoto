@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Retención Art. 383
+{% endblock title %}
+
+
+{% block content %}
+
+  <div class="jumbotron" width=20%>
+      <form method="post" > 
+          {% csrf_token %}
+          <table>
+              {{form.as_table}}
+          </table>
+         
+          <input type="submit" class="btn btn-info" value="Guardar">
+          <a class="btn btn-danger" href="{% url 'reten_383_list' %}">Cancelar</a>
+      </form>
+  </div>
+
+{% endblock content %}

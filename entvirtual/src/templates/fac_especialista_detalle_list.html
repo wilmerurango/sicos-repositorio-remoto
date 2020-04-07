@@ -1,0 +1,67 @@
+{% extends 'base.html' %} 
+{% load humanize %}
+
+{% block title %}
+    Detalle de Fatura o CPP
+{% endblock title %} 
+
+{% block content %}
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-table"></i>
+    Registros de Detalles de Facturacion
+  </div>
+
+
+    
+  {% if fac_especialista_detalles %}
+  
+  <div class="card-body">
+    <div class="table-responsive">
+
+        <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable table table-hover" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+            <thead>
+              <tr role="row">
+                  <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código_Factura</font></font></th>
+                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_del_Especialista</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 96px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Centro_de_Costo</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Actividad</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 38px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Grupo_Actividad</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tipo_CPP</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor_Costo</font></font></th>
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha_del_Periodo</font></font></th> 
+                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th> 
+
+              </tr>
+            </thead>
+            <tbody>              
+              
+              
+    
+              {% for fac_especialista_detalle in fac_especialista_detalles %}  
+              <tr role="row" class="odd">
+                <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.id}}</font></font></td>
+                <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.fac_especialista.id}}</font></font></td>
+                <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.fac_especialista.especialista.name_esp}}</font></font></td>
+                <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.centro_costo.name_ccos}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.centro_actividad.actividad.name_act}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.centro_actividad.actividad.sub_activity.name_subactivity}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.tipo_fact.name_fact}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.valor|intcomma}}</font></font></td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{fac_especialista_detalle.fac_especialista.fechafac_esp|date:"SHORT_DATE_FORMAT"}}</font></font> </td>
+                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center><a class= "btn btn-link" href= "{% url 'fac_especialista_detalle_edit' fac_especialista_detalle.id %}" ><ion-icon name="create"></ion-icon></a></center></font></font></td>
+
+              </tr>
+              {% endfor %}
+
+  {%else%}
+    <div class="alert alert-dark" role="alert">
+      <h2>No hay Registros de Detalles de Facturacion </h2>
+    </div>
+  {% endif%}
+
+            </tbody>
+          </table></div></div>
+
+{% endblock content%}

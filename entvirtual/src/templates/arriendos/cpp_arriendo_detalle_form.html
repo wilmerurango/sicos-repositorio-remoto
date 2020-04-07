@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+  Registrar CPP detallado del Arriendo
+{% endblock title %}
+
+
+{% block content %}
+
+  <div class="jumbotron" width=20%>
+      <form method="post" id="arriendoform" data-inductors-url="{% url 'ajax_arriendo_lista' %}" >
+          {% csrf_token %}
+          <table>
+            {{form.as_table}}
+          </table>
+          <br>
+          <input type="submit" class="btn btn-info" value="Guardar">
+          <a class="btn btn-danger" href="{% url 'cpp_arriendo_list' %}">Cancelar</a>
+      </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+  <script>
+    $("#id_arriendo").change(function () {
+      var url = $("#arriendoform").attr("data-inductors-url");  // get the url of the `load_cities` view
+      var arriendoId = $(this).val();  // get the selected country ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'arriendo': arriendoId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_inductor_arri").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
+
+{% endblock content %}
+
+{% block scripts_local %}
+  <script>  
+    $(function () {  
+    $("#id_fecha_cpp_arri_detal").datetimepicker({  
+      format: 'd/m/Y',  
+      timepicker:false  
+    });  
+    });  
+  </script> 
+{% endblock scripts_local %}
+
+
