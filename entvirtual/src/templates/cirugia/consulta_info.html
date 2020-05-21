@@ -1,0 +1,222 @@
+{% extends 'base_cirugia.html' %}
+
+
+{% block title %}
+    Consulta de Procedimientos
+{% endblock title %}
+
+
+{% block content %}
+
+    <div class="content col-sm-5 border border-success">
+        <h3>Tabla de Consulta</h3>
+        <form method="post" id="consulta_infor_form" data-proc-url="{% url 'lista_proc_ajax' %}"> 
+            {% csrf_token %}
+
+            {{form.as_table}}
+
+            <p></p>
+            <button class="btn btn-success" type="submit">Consultar</button>
+            <p></p>
+
+        </form>
+    </div>
+
+    <p></p>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script>
+      $("#id_tipo_proc").change(function () {
+        var url = $("#consulta_infor_form").attr("data-proc-url");  // get the url of the `load_cities` view
+        var tipo_procId = $(this).val();  // get the selected country ID from the HTML input
+
+        $.ajax({                       // initialize an AJAX request
+          url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+          data: {
+            'tipo_proc': tipo_procId       // add the country id to the GET parameters
+          },
+          success: function (data) {   // `data` is the return of the `load_cities` view function
+            $("#id_procedimiento").html(data);  // replace the contents of the city input with the data that came from the server
+          }
+        });
+      });
+    </script>
+  </div>
+<!-- ============================ -->
+
+
+
+
+
+
+
+    {% if consul_ultimo %}
+        <div class="container-fluid border border-info">
+            <h3>Datos</h3> 
+            <a class= "btn btn-danger" href= "{% url 'limpiar_consulta' %}" >Limpiar</a>
+            <table class="table table-bordered table-responsive dataTable table table-hover"  id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                <tr>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>COSTO TOTAL: </strong> </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>$$$$$$$$$$$$</strong> </font></font></td>
+                    <td class="color_blanco"></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TIPO_PROCEDIMIENTO: </font></font></td>
+                    <td class="small " colspan="4"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>{{consul_ultimo.tipo_proc.nombre_tipo_proc}}</strong> </font></font></td>
+
+
+                </tr>
+                <tr>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>TIEMPO_PROCEDIMIENTO:</strong> </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>$$$$$</strong> </font></font></td>
+                    <td class="color_blanco"></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PROCEDIMIENTO:</font></font></td>
+                    <td class="small" colspan="4"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>{{consul_ultimo.procedimiento.nombre_proc}}</strong></font></font></td>
+                
+                </tr>
+                <tr>
+                    <td class="color_blanco" colspan="8"></td>
+                </tr>
+
+                <tr>
+                    <td class="color_azul text-white" colspan="2"><CENTER><strong> CLASIFICACIÓN</strong></CENTER> </td>
+                    <td class="color_azul text-white" colspan="6"><center><strong>DETALLE</strong> </center> </td>
+                </tr>
+
+                <tr>
+                    <td class="color_blanco" colspan="8"></td>
+                </tr>
+
+                <tr>
+                    <td class="small color_azul text-white " colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong></strong> <strong><center>CANASTA</center>  </strong> </font></font></td>
+                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">COSTO_DE_LA_CANASTA </font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DESECHABLES</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MEDICAMENTOS </font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DISPOSITIVOS_MÉDICOS</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PAQUETES_REUTILIZABLES</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OTROS</font></font></td>
+                </tr>
+
+                <tr>
+                    <td class="small " colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center>{{ canasta}}</center> </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{valor_canasta}}</font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {{desechable}}  </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {{medicamento }} </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {{dispositivos}}  </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{paquete_desechable}}  </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{otro}} </font></font></td>
+                </tr>
+
+                <tr>
+                    <td class="color_blanco" colspan="8"></td>
+                </tr>
+
+                <tr>
+                    <td class="small color_blanco text-white text-center" rowspan="2" colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center><strong>PAPELERIA</strong> </center> </font></font></td>
+                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PAPELERIA</font></font></td>
+                </tr>
+                <tr>
+                    <td class="small "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{papeleria}}  </font></font></td>
+                </tr>
+
+                <tr>
+                    <td class="color_blanco" colspan="8"></td>
+                </tr>
+
+                <tr>
+                    <td class="small color_azul text-white " rowspan="2" colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center><strong>SALARIOS</strong></center> </font></font></td>
+                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TOTAL_SALARIOS</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SALARIO_INSTRUMENTADOR</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SALARIO_MEDICO_AYUDANTE</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SALARIO_ENFERMERA</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OTROS</font></font></td>
+                </tr>
+
+                <tr>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {{salario}} </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    </font></font></td>
+                </tr>
+
+
+                <tr>
+                    <td class="color_blanco" colspan="8"></td>
+                </tr>
+
+                <tr>
+                    <td class="small color_azul text-white"  rowspan="2" colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center><strong>CONSULTAS</strong></center> </font></font></td>
+                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TOTAL_CONSULTAS </font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CONSULTA_ANESTECIOLOGO</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CONSULTA_ESPECIALIZADA</font></font></td>
+                </tr>
+
+                <tr>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
+                </tr>
+
+                <tr>
+                    <td class="color_blanco" colspan="8"></td>
+                </tr>
+
+                <tr>
+                    <td class="small color_azul text-white " rowspan="2" colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center><strong>DERECHOS_DE_SALA</strong></center> </font></font></td>
+                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DERECHO_A_SALA</font></font></td>
+                </tr>
+
+                <tr>
+                    <td class="small "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    </font></font></td>
+                </tr>
+
+                <tr>
+                    <td class="color_blanco" colspan="8"></td>
+                </tr>
+
+                <tr>
+                    <td class="small color_azul text-white " rowspan="2" colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center><strong>ESTANCIA_HOSPITALIZACIÓN</strong></center> </font></font></td>
+                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">COSTOS_TOTAL_ESTANCIA</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DÍAS_ESTANCIA</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">COSTO_ESTANCIA_POR_DÍA</font></font></td>
+                </tr>
+
+                <tr>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
+                </tr>
+
+
+                <tr>
+                    <td class="color_blanco" colspan="8"></td>
+                </tr>
+
+                <tr>
+                    <td class="small color_azul text-white " rowspan="4" colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center><strong>HONORARIOS</strong></center> </font></font></td>
+                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HONORARIO_DEL_ANESTECIOLOGO</font></font></td>
+                </tr>
+
+                <tr>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  </font></font></td>
+                </tr>
+
+                <tr>
+                    <td class="color_blanco" colspan="8"></td>
+                </tr>
+
+                <tr>
+                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OPCIÓN</font></font></td>
+                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CONCEPTO</font></font></td>
+                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HONORARIO_DEL_ESPECIALISTA</font></font></td>
+                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OPCIÓN_COSTO_TOTAL</font></font></td>
+                </tr>
+
+
+            </table>
+
+
+        </div>
+    {% endif %}
+   
+{% endblock content%}

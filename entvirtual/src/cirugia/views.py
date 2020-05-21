@@ -2,14 +2,17 @@ from django.http import HttpResponse
 from django.shortcuts import render , redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, View
+from django.contrib.auth.models import User
 
 #exportar excel
-from openpyxl import Workbook
 from django.http.response import HttpResponse
 from django.views.generic.base import TemplateView
+from openpyxl import Workbook
 
+#importar modelos y fomularios
 from cirugia.models import * 
 from cirugia.forms import * 
+from cirugia.funciones.calculos import *
 
 #para importar libreria de excel
 import numpy as np
@@ -44,10 +47,61 @@ class Reporte_proc_excel(TemplateView):
         return response
 
 
+#vista de consulta de datos
+def consulta_info(request):
+    consul = consulta.objects.all()#eso tambien es un dato de entrada como los que estan dentro del IF de abajo
 
+    if request.method == 'POST' :
+        form = consultaform(request.POST)
+        if form.is_valid(): 
+            form.save()
+        return redirect('consulta_info')
+    else:
+        form = consultaform()
+    
+    if consul.count() != 0:
+        consul_ultimo = consul.last()
+        
+        #DATOS DE ENTRADA
+        name_cansta = nombre_canasta.objects.all()
+        honora = honorario.objects.all()
+        canast = canasta.objects.all()
+        salar = salario.objects.all()
+        
+        #FUNCION
+        datos = calculo(name_cansta,honora, consul, canast, salar)
+        datos.resultado()
+        
+        print(datos.resultado()[1])
+        
+        return render(request,'cirugia/consulta_info.html',{'form':form, 
+                                                            'consul_ultimo':consul_ultimo,
+                                                            'canasta':datos.resultado()[0].nombre_canasta,
+                                                            'valor_canasta':datos.resultado()[1],
+                                                            'desechable':datos.resultado()[2],
+                                                            'medicamento':datos.resultado()[3],
+                                                            'dispositivos':datos.resultado()[4],
+                                                            'paquete_desechable':datos.resultado()[5],
+                                                            'otro':datos.resultado()[6],
+                                                            'papeleria':datos.resultado()[7],
+                                                            'salario':datos.resultado()[8],
+                                                            })
+    else:
+        return render(request,'cirugia/consulta_info.html',{'form':form})
+
+def limpiar_consulta(request):
+    consult = consulta.objects.all()
+    consult.delete()
+    return redirect('consulta_info')
+
+def data_proc_url(request):
+    tipo_proc = request.GET.get('tipo_proc')
+    procedimiento1 = procedimiento.objects.filter(tipo_proc=tipo_proc).order_by('nombre_proc')
+    return render(request,'cirugia/consulta_lista_proc.html',{'procedimientos':procedimiento1})
+
+    
 #tipos de procedimietos
 def tipo_proc_list(request):
-    
     tipo_pro_1 = tipo_proc.objects.all()
     contexto = {'tipo_procs':tipo_pro_1}
     return render(request, 'cirugia/tipo_proc_list.html',contexto)
@@ -349,15 +403,26 @@ def canastaEdit(request,id_):
         form = canastaform(request.POST, instance = canasta1)
         if form.is_valid():
             form.save()
+            canasta1.costo_tot = canasta1.costo_und*canasta1.cantidad
+            canasta1.save()
         return redirect('canasta_list')
     contexto = {'form':form}
+
     return render(request, 'cirugia/canasta_form.html',contexto) 
 
-class canastaCrear(CreateView):
-    model = canasta
-    form_class = canastaform
-    template_name = 'cirugia/canasta_form.html'
-    success_url=reverse_lazy('canasta_list')
+def canastaCrear(request):
+    if request.method == 'POST' :
+        form = canastaform(request.POST)
+        if form.is_valid(): 
+            form.save()
+            canastaa = canasta.objects.last()
+            canastaa.costo_tot = canastaa.costo_und*canastaa.cantidad
+            canastaa.save()
+        return redirect('canasta_list')
+    else:
+        form = canastaform()
+    
+    return render(request, 'cirugia/canasta_form.html', {'form':form} )
 
 def canastaElim(request, id_):
     canasta1 = canasta.objects.get(id = id_)

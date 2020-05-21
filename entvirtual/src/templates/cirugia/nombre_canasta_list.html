@@ -8,19 +8,14 @@
 
 {% block content %}
 
-  <a class= "btn btn-success" href= "{% url 'nombre_canasta_view' %}" >Crear Canasta<ion-icon name="add"></ion-icon></a>
+  <a class= "btn btn-success" href= "{% url 'nombre_canasta_view' %}" >Crear Nombre de Canasta<ion-icon name="add"></ion-icon></a>
   
     <div class="card mb-3">
             <div class="card-header">
                     <i class="fas fa-table"></i>
                     Nombre Canasta
                   </div>
-            
-                    <!-- <form>
-                      <input type="search" placeholder="AAAA-MM-DD" name="filtrofechacpp" aria-controls="dataTable">
-                      <input type="search" placeholder="Código" name="filtroidcpp" aria-controls="dataTable">
-                      <button type="submit" name="botonfiltrocpp">Filtrar</button>
-                    </form> -->
+
                   {%if nombre_canastas %}
                   <div class="card-body">
                     <div class="table-responsive " >

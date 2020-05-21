@@ -633,7 +633,7 @@ class fac_especialista_detalleform(forms.ModelForm):
             self.fields['fechafac_detalle'].widget.attrs['readonly'] = True
             
         self.fields['centro_actividad'].queryset = centro_actividad.objects.none()
-        
+       
 
         if 'centro_costo' in self.data:
             try:

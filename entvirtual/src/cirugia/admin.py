@@ -16,5 +16,5 @@ admin.site.register(constante)
 admin.site.register(concepto_salario)
 admin.site.register(rubro)
 admin.site.register(salario)
-
+admin.site.register(consulta)
 

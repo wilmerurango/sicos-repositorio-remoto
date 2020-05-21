@@ -30,6 +30,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 import getpass
 
+
 #exportar excel
 from openpyxl import Workbook
 from django.http.response import HttpResponse
@@ -49,8 +50,9 @@ class RegistroUsuario(CreateView):
     form_class = RegistroForm
     success_url = reverse_lazy('home')   
     
-    
-    
+#cambiar contraseña
+
+
 #==================================================================================================
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 #==================================================================================================
@@ -1209,6 +1211,27 @@ def base(request,*args, **kwargs):
 
 def base_cirugia(request,*args, **kwargs):
     return render(request, 'base_cirugia.html', {})
+
+def cambiar_pass_form(request,*args, **kwargs):
+    return render(request, 'usuario/cambiar_pass_form.html', {})
+
+def cambiar_pass_form_error(request,*args, **kwargs):
+    return render(request, 'usuario/cambiar_pass_form_error.html', {})
+
+def cambiar_pass(request,*args, **kwargs):
+    usuario = request.GET.get("usuario")
+    passw = request.GET.get("passw")
+    passw_2 = request.GET.get("passw_2")
+    
+    if passw == passw_2:
+        user = User.objects.get(username=usuario)
+        user.set_password(passw)
+        user.save()
+        return redirect('login')
+    else:
+        return redirect('cambiar_pass_form_error')
+    
+
 
 #==================================================================================================
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -2820,6 +2843,22 @@ class distri_serv_publicCrear(CreateView):
     form_class = distri_serv_publicform
     template_name = 'servicios_publicos/distri_serv_public_form.html'
     success_url = reverse_lazy('distri_serv_public_list')
+    
+def distri_serv_publicCrear(request):
+    ultimo_distri_serv_public = distri_serv_public.objects.last()
+    cont = distri_serv_public.objects.all().count()
+    if request.method == 'POST' :
+        form = distri_serv_publicform(request.POST)
+        if form.is_valid(): 
+            form.save()
+        return redirect('distri_serv_public_view')
+    else:
+        if cont != 0 :
+            form = distri_serv_publicform(instance=ultimo_distri_serv_public)
+        else:
+            form = distri_serv_publicform()
+    return render(request, 'servicios_publicos/distri_serv_public_form.html', {'form':form})
+
 
 class distri_serv_publicEdit(UpdateView):
     model = distri_serv_public

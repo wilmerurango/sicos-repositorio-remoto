@@ -13,6 +13,13 @@
 
   <title>SICOS - {% block title %}Pagina Principal{% endblock title%}</title>
 
+  <!-- ARCHIVOS PARA G¿HACER EL DIAGRAMA DE ARBOL -->
+  <!-- <script type="text/javascript" src="{% static 'vendor/jquery/jquery.min.js' %}"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'jstree/bootstrap.min.js' %}"></script>
+  <script src="{% static 'jstree/jstree.min.js' %}"></script>
+  <!-- <link rel="stylesheet" href="{% static 'jstree/themes/default/style.min.css' %}"/> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 
 
   <!-- Custom fonts for this template-->
@@ -70,9 +77,22 @@
       background: rgb(218, 224, 224);
     }
 
+    .color_div{
+      background: #f1f1f1b2;
+  
+    }
+    .hv:hover{
+
+      color: black;
+    }
+
+    .of{
+      overflow: hidden;
+    }
+
   </style>
 
-  <!-- este escripts es para ocultar los campos que no se requieren del formulario -->
+
 <script type="text/javascript">
 
   function habilitar()
@@ -83,7 +103,6 @@
     var campo11 = document.getElementById("camp11");
     var cajaa = document.getElementById("caja");
     var op = document.getElementById("option");
-
 
     if (campo11.value != "0")
     {
@@ -193,7 +212,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
             <a class="dropdown-item" href="#">Settings</a>
-            <a class="dropdown-item" href="#">Activity Log</a>
+            <a class="dropdown-item" href="{%  url 'cambiar_pass_form' %}">Cambiar Contraseña</a>
             <div class="dropdown-divider"></div>
             <!-- <a class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal" data-target="#logoutModal">Logout</a> -->
             <a class="dropdown-item" href="{% url 'logout' %}" data-target="#logoutModal"  >Logout</a>
@@ -206,98 +225,129 @@
 </nav>
 
 
-<div id="wrapper">
+<div id="wrapper" class="nav-item active">
 
   <!-- Sidebar -->
 
   {% block menu %}
+
+
   <ul class="sidebar navbar-nav">
+   
     <li class="nav-item active">
       <a class="nav-link text-info" href="{% url 'home'%}">
         <ion-icon name="home"></ion-icon>
         <span>Inicio</span>
       </a>
     </li>
-    <li class="nav-item dropdown">
-      <a data-toggle="dropdown" class="nav-link dropdown-toggle"  href="" id="pagesDropdown" role="button"  aria-haspopup="true" aria-expanded="false">
-        <ion-icon name="clipboard"></ion-icon>
-        <span>Parámetros</span>
-      </a>
+    
+    <!-- #este es el menu de arbol -->
+      <div id="myjstree" class="color_div small"> <!-- -->
+        <ul>
+          <li id="1" class="hv of">Menu
+          <ul>
+            <li id="2" class="of">Parametros
+              <ul>
+                {% if perms.facturacion.add_centro_costo %}
+                <li id="3">Centros de Costo
+                  <ul>
+                    <li data-jstree='{ "icon":"glyphicon glyphicon-menu-right" }' id ="{% url 'centro_costo_list' %}"> Centros Costos</li>
+                    <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }' id="{% url 'centro_actividad_list' %}"> Centro Actividad</li>
+                    <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }' id="{% url 'actividad_list' %}"> Actividades</li>
+                    <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }' id="{% url 'sub_activity_list' %}">Grupo-Actividad</li>
 
-      <div class="mencon dropdown-menu border border-success"  aria-labelledby="pagesDropdown">
+                  </ul>
 
-        {% if perms.facturacion.add_centro_costo %}
-        <h6 class="dropdown-header text-dark"><strong><i>CENTROS DE COSTOS</i>:</strong></h6>
-        <a class="dropdown-item" href="{% url 'centro_costo_list' %}">Centros de Costos</a>
-        <a class="dropdown-item" href="{% url 'centro_actividad_list' %}">Centro de Actividad</a>
-        <a class="dropdown-item" href="{% url 'actividad_list' %}">Actividades</a>
-        <a class="dropdown-item" href="{% url 'sub_activity_list' %}">Grupo-Actividades</a>
-        {% endif %}
+                </li>
+                {% endif %}
 
-        {% if perms.facturacion.add_especialista %}
-        <h6 class="dropdown-header text-dark"><strong><i>ESPECIALISTAS</i>:</strong></h6>
-        <a class="dropdown-item" href="{% url 'especialistas_list' %}">Especialistas</a>
-        <!-- <a class="dropdown-item" href="{% url 'fac_especialista_list' %}">Cuentas por Pagar</a> -->
-        <a class="dropdown-item" href="{% url 'tipo_fact_list' %}">Tipos de Facturación</a> 
-        <!-- <div class="dropdown-divider"></div> -->
-        <a class="dropdown-item" href="{% url 'especialista_cpp_aux_list' %}">CPP-Especialistas</a>
-        <a class="dropdown-item" href="{% url 'contrato_list' %}">Base Retenedora</a>
-        <a class="dropdown-item" href="{% url 'tarifa_list' %}">Tarifas</a>
-        <a class="dropdown-item" href="{% url 'uvt_list' %}">UVT</a>
-        <a class="dropdown-item" href="{% url 'reten_383_list' %}">Art. 383</a> 
-        <a class="dropdown-item" href="{% url 'cuenta_reten_list' %}">Cuentas de Retención</a> 
-        {% endif %}
+                {% if perms.facturacion.add_especialista %}
+                  <li id="4">Especialistas
+                    <ul>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-open-file" }' id="{% url 'especialistas_list' %}">Especialistas</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-open-file" }' id="{% url 'tipo_fact_list' %}">Tipos Facturación</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-open-file" }' id="{% url 'especialista_cpp_aux_list' %}">CPP-Especialistas</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-open-file" }' id="{% url 'contrato_list' %}">Base Retenedora</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-open-file" }' id="{% url 'tarifa_list' %}">Tarifas</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-open-file" }' id="{% url 'uvt_list' %}">UVT</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-open-file" }' id="{% url 'reten_383_list' %}">Art. 383</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-open-file" }' id="{% url 'cuenta_reten_list' %}">Retención</li>
+    
+                    </ul>  
 
-        <!-- Esto se elimino por se unieron los servicios publicos y los servicios medicos y proveedores -->
-        <!-- <h6 class="dropdown-header text-dark"><strong><i>SERVICIOS MÉDICOS</i>:</strong></h6>
-        <a class="dropdown-item" href="{% url 'servicio_medico_list' %}">Servicios Médicos</a> -->
-        {% if perms.facturacion.add_arriendo %}
-        <h6 class="dropdown-header text-dark"><strong><i>ARRIENDOS</i>:</strong></h6>
-        <a class="dropdown-item" href="{% url 'arriendo_list' %}">Registros</a> 
-        <a class="dropdown-item" href="{% url 'inductor_arri_list' %}">Inductores</a>
-        <a class="dropdown-item" href="{% url 'cuenta_arriendo_aux_list' %}">Cuentas Auxiliares</a> 
-        {% endif %}
+                  </li>
+                {% endif %}
 
-        {% if perms.facturacion.add_proveedor%}
-        <h6 class="dropdown-header text-dark"><strong><i>PROVEEDORES</i>:</strong></h6>
-        <a class="dropdown-item" href="{% url 'proveedor_list' %}">Proveedores</a>
-        <a class="dropdown-item" href="{% url 'producto_list' %}">Productos</a>
-        <a class="dropdown-item" href="{% url 'categoria_list' %}">Categorias</a>
-        <a class="dropdown-item" href="{% url 'distribucion_list' %}">Distribución</a>
-        <a class="dropdown-item" href="{% url 'cuenta_aux_list' %}">Cuentas Aux.</a>
-        {% endif %}
+                {% if perms.facturacion.add_arriendo %}
+                  <li id="5">Arriendos
+                    <ul>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-menu-right" }'id="{% url 'arriendo_list' %}">Registros</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'inductor_arri_list' %}">Inductores</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'cuenta_arriendo_aux_list' %}">Cuentas</li>  
+                    </ul>  
 
-        {% if perms.facturacion.add_servicio %}
-        <h6 class="dropdown-header text-dark"><strong><i>SERVICIOS</i>:</strong></h6>
-        <a class="dropdown-item" href="{% url 'tipo_serv_list' %}">Tipos de Servicio</a>
-        <a class="dropdown-item" href="{% url 'serv_public_list' %}">Servicios Públicos</a>
-        <a class="dropdown-item" href="{% url 'cuenta_aux_serv_list' %}">Cuentas Aux.</a>
-        <a class="dropdown-item" href="{% url 'distri_serv_public_list' %}">Distribuciones</a>
-        {% endif %}
+                  </li>
+
+                {% endif %}
+
+                {% if perms.facturacion.add_proveedor%}
+                  <li id="6" >Proveedores
+                    <ul>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-menu-right" }'id="{% url 'proveedor_list' %}">Proveedores</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'producto_list' %}">Productos</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'categoria_list' %}">Categorias</li>  
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'distribucion_list' %}">Distribución</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'cuenta_aux_list' %}">Cuentas Aux.</li>  
+
+                    </ul>  
+
+                  </li>
+
+                {% endif %}
+                
+                {% if perms.facturacion.add_servicio %}
+                  <li id="7" >Proveedores
+                    <ul>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-menu-right" }'id="{% url 'tipo_serv_list' %}">Tipos de Servicio</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'serv_public_list' %}">Servicios Públicos</li>
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'cuenta_aux_serv_list' %}">Cuentas Aux.</li>  
+                      <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'distri_serv_public_list' %}">Distribuciones</li>
+
+                    </ul>  
+
+                  </li>
+
+
+                {% endif %}
+                
+
+              </ul>
+              
+
+
+
+            </li>
+
+
+            <li id="8">CPP
+              <ul>
+                <li data-jstree='{ "icon":"glyphicon glyphicon-menu-right" }'id="{% url 'fac_especialista_list' %}">Especialistas</li>
+                <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'cpp_arriendo_list' %}">Arriendos</li>
+                <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'cpp_proveedor_list' %}">Proveedores</li>  
+                <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'cpp_serv_public_list' %}">Servicios</li>
+
+              </ul>
+            
+        
+            </li>
+        </ul>
       </div>
-
-    </li>
-
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <ion-icon name="card"></ion-icon>
-        <span>CPP</span>
-      </a>
-      <div  class="mencon dropdown-menu border border-success"  aria-labelledby="pagesDropdown">
-        <a class="dropdown-item" href="{% url 'fac_especialista_list' %}">Especialistas</a>
-        <a class="dropdown-item" href="{% url 'cpp_arriendo_list' %}">Arriendos</a>
-        <a class="dropdown-item" href="{% url 'cpp_proveedor_list' %}">Proveedores</a>
-        <a class="dropdown-item" href="{% url 'cpp_serv_public_list' %}">Servicios</a>
-
-
-
-
-      </div>
-    </li>
+    <!-- fin de menu de arbol| -->
 
 
   </ul>
   {% endblock menu %}
+
   <div id="content-wrapper">
 
     <div class="container-fluid">
@@ -333,8 +383,6 @@
     </div>
 
 
-
-
     <!-- Sticky Footer NO QUITAR-->
     <!-- <footer class="sticky-footer">
       <div class="container my-auto">
@@ -359,9 +407,38 @@
 
   <!-- Logout Modal-->
  
+  <script type="text/javascript">
+    
+    $(function () { 
+      $('#myjstree').jstree ({ "themes" : { "stripes" : true }}); 
 
+      $('#myjstree').on("select_node.jstree", function (e, data) { 
+        if(
+        (data.node.id != 1) && 
+        (data.node.id != 2) && 
+        (data.node.id != 3) && 
+        (data.node.id != 4) && 
+        (data.node.id != 5) &&
+        (data.node.id != 6) &&
+        (data.node.id != 7) &&
+        (data.node.id != 8) &&
+        (data.node.id != 9) 
+        ){
+          window.location= data.node.id;
+        //alert("node_id: " + data.node.id);
+        }
+        
+      });
+    });
+  </script>
+
+
+
+
+
+ 
   <!-- Bootstrap core JavaScript-->
-  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <!-- <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script> -->
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   <!-- <script src="{% static 'vendor/bootstrap/js/agrega.js' %}"></script> esto es el archivo que yo cree para agregar columnas desde la plantilla -->
 
@@ -381,17 +458,21 @@
   <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
   <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
 
+
+
   {% block scripts_local %}
 
-
   {% endblock scripts_local %}
+
 
 
   <script>
     $(document).ready(function () {  
       jQuery.datetimepicker.setLocale('es');  
-     }); 
+    }); 
   </script>
+
+
 
   <!-- esta es la ruta para la fecha -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script> 

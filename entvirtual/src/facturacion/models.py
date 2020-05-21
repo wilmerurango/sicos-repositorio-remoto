@@ -506,9 +506,9 @@ class serv_public(models.Model):
     nit = models.CharField('NIT', null = True, blank = False, max_length = 15)
     nombre_tercero =  models.CharField('Nombre Tercero', null = True, blank = False, max_length = 50)
     nombre_serv = models.CharField('Nombre Servicio', null = True, blank = False, max_length = 50)
-    direccion = models.CharField('Dirección', null = True, blank = False, max_length = 50)
-    tel = models.CharField('Telefono', null = True, blank = False, max_length = 50)
-    email = models.EmailField('E-mail', null = True, blank = False, max_length = 50)
+    direccion = models.CharField('Dirección', null = True, blank = True, max_length = 50)
+    tel = models.CharField('Telefono', null = True, blank = True, max_length = 50)
+    email = models.EmailField('E-mail', null = True, blank = True, max_length = 50)
     fecha = models.DateField('Fecha', null = True, blank = False)
     
     def __str__(self):

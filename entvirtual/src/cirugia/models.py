@@ -25,11 +25,7 @@ class procedimiento(models.Model):
     # class Meta:
     #     ordering = ['nombre_proc']
 
-# class tiempo_proc(models.Model):
-#     tipo_proc = models.ForeignKey(tipo_proc,verbose_name = 'Tipo Procedimiento', null = True, on_delete=models.CASCADE)
-#     procedimiento = models.ForeignKey(procedimiento,verbose_name = 'Nombre del Procedimiento', null = True, on_delete=models.CASCADE)
-#     duracion_proc = models.FloatField('Duración del Procedimiento', null = True)
-    
+
 class concepto_honorario(models.Model):
     nombre_concep_hon = models.CharField('Nombre del Concepto', null = True, max_length = 30)
     
@@ -49,7 +45,7 @@ class nombre_canasta(models.Model):
         ordering = ['nombre_canasta']
 
 class concepto_canasta(models.Model):
-    nombre_canasta = models.CharField('Nombre de la Canasta', null = True, max_length = 85)
+    nombre_canasta = models.CharField('Concepto de la Canasta', null = True, max_length = 85)
     
     def __str__(self):
         return '%s' % (self.nombre_canasta)
@@ -131,5 +127,10 @@ class salario(models.Model):
     # duracion = models.FloatField('Duración', null = True)
     costo = models.FloatField('Costo', null = True)
     # subtotal =  models.FloatField('Subtotal', null = True)
-    
-    
+  
+#este modelo es solo para consultar los procedimientos
+class consulta(models.Model):
+    tipo_proc = models.ForeignKey(tipo_proc,verbose_name = 'Tipo Procedimiento', null = True, on_delete=models.CASCADE)
+    procedimiento = models.ForeignKey(procedimiento, verbose_name = 'Nombre del Procedimiento', null = True, on_delete = models.CASCADE)
+    ganancia = models.FloatField('Ganancia', default = 0)
+

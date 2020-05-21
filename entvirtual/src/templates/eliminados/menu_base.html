@@ -1,0 +1,77 @@
+    
+    <li class="nav-item dropdown">
+        <a data-toggle="dropdown" class="nav-link dropdown-toggle"  href="" id="pagesDropdown" role="button"  aria-haspopup="true" aria-expanded="false">
+          <ion-icon name="clipboard"></ion-icon>
+          <span>Parámetros</span>
+        </a>
+  
+        <div class="mencon dropdown-menu border border-success"  aria-labelledby="pagesDropdown">
+  
+          {% if perms.facturacion.add_centro_costo %}
+          <h6 class="dropdown-header text-dark"><strong><i>CENTROS DE COSTOS</i>:</strong></h6>
+          <a class="dropdown-item" href="{% url 'centro_costo_list' %}">Centros de Costos</a>
+          <a class="dropdown-item" href="{% url 'centro_actividad_list' %}">Centro de Actividad</a>
+          <a class="dropdown-item" href="{% url 'actividad_list' %}">Actividades</a>
+          <a class="dropdown-item" href="{% url 'sub_activity_list' %}">Grupo-Actividades</a>
+          {% endif %}
+  
+          {% if perms.facturacion.add_especialista %}
+          <h6 class="dropdown-header text-dark"><strong><i>ESPECIALISTAS</i>:</strong></h6>
+          <a class="dropdown-item" href="{% url 'especialistas_list' %}">Especialistas</a>
+          <!-- <a class="dropdown-item" href="{% url 'fac_especialista_list' %}">Cuentas por Pagar</a> -->
+          <a class="dropdown-item" href="{% url 'tipo_fact_list' %}">Tipos de Facturación</a> 
+          <!-- <div class="dropdown-divider"></div> -->
+          <a class="dropdown-item" href="{% url 'especialista_cpp_aux_list' %}">CPP-Especialistas</a>
+          <a class="dropdown-item" href="{% url 'contrato_list' %}">Base Retenedora</a>
+          <a class="dropdown-item" href="{% url 'tarifa_list' %}">Tarifas</a>
+          <a class="dropdown-item" href="{% url 'uvt_list' %}">UVT</a>
+          <a class="dropdown-item" href="{% url 'reten_383_list' %}">Art. 383</a> 
+          <a class="dropdown-item" href="{% url 'cuenta_reten_list' %}">Cuentas de Retención</a> 
+          {% endif %}
+  
+          <!-- Esto se elimino por se unieron los servicios publicos y los servicios medicos y proveedores -->
+          <!-- <h6 class="dropdown-header text-dark"><strong><i>SERVICIOS MÉDICOS</i>:</strong></h6>
+          <a class="dropdown-item" href="{% url 'servicio_medico_list' %}">Servicios Médicos</a> -->
+          {% if perms.facturacion.add_arriendo %}
+          <h6 class="dropdown-header text-dark"><strong><i>ARRIENDOS</i>:</strong></h6>
+          <a class="dropdown-item" href="{% url 'arriendo_list' %}">Registros</a> 
+          <a class="dropdown-item" href="{% url 'inductor_arri_list' %}">Inductores</a>
+          <a class="dropdown-item" href="{% url 'cuenta_arriendo_aux_list' %}">Cuentas Auxiliares</a> 
+          {% endif %}
+  
+          {% if perms.facturacion.add_proveedor%}
+          <h6 class="dropdown-header text-dark"><strong><i>PROVEEDORES</i>:</strong></h6>
+          <a class="dropdown-item" href="{% url 'proveedor_list' %}">Proveedores</a>
+          <a class="dropdown-item" href="{% url 'producto_list' %}">Productos</a>
+          <a class="dropdown-item" href="{% url 'categoria_list' %}">Categorias</a>
+          <a class="dropdown-item" href="{% url 'distribucion_list' %}">Distribución</a>
+          <a class="dropdown-item" href="{% url 'cuenta_aux_list' %}">Cuentas Aux.</a>
+          {% endif %}
+  
+          {% if perms.facturacion.add_servicio %}
+          <h6 class="dropdown-header text-dark"><strong><i>SERVICIOS</i>:</strong></h6>
+          <a class="dropdown-item" href="{% url 'tipo_serv_list' %}">Tipos de Servicio</a>
+          <a class="dropdown-item" href="{% url 'serv_public_list' %}">Servicios Públicos</a>
+          <a class="dropdown-item" href="{% url 'cuenta_aux_serv_list' %}">Cuentas Aux.</a>
+          <a class="dropdown-item" href="{% url 'distri_serv_public_list' %}">Distribuciones</a>
+          {% endif %}
+        </div>
+  
+      </li>
+  
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <ion-icon name="card"></ion-icon>
+          <span>CPP</span>
+        </a>
+        <div  class="mencon dropdown-menu border border-success"  aria-labelledby="pagesDropdown">
+          <a class="dropdown-item" href="{% url 'fac_especialista_list' %}">Especialistas</a>
+          <a class="dropdown-item" href="{% url 'cpp_arriendo_list' %}">Arriendos</a>
+          <a class="dropdown-item" href="{% url 'cpp_proveedor_list' %}">Proveedores</a>
+          <a class="dropdown-item" href="{% url 'cpp_serv_public_list' %}">Servicios</a>
+  
+  
+  
+  
+        </div>
+      </li>

@@ -1,0 +1,47 @@
+{% extends 'base.html' %} 
+
+
+{% block title %}
+  Cambiar Contraseña
+{% endblock title %} 
+
+
+{% block menu %}
+
+{% endblock menu %}
+
+
+{% block content %}
+
+    
+    <form action="{% url 'cambiar_pass' %}">
+        <div class="container border border-success col-sm-5">
+            <h3>Cambiar Contraseña</h3>
+            <p></p>
+            <table>
+                <tr>
+                    <td><label for="usuario"> Por Favor Ingrese el Usuario</label></td>
+                    <td><input type="text" required placeholder={{user.username}}  name="usuario" ></td>
+                </tr>
+                <tr> 
+                    <td><label for="passw"> Por Favor Ingrese la Nueva Contraseña</label></td>
+                    <td><input id = "passw" type="password"  required placeholder="Nueva Contraseña"  value = "{{ user.usrername}}" name="passw"></td>
+                </tr>
+                <tr>
+                    <td><label for="passw_2"> Por Favor Confirme la Nueva Contraseña</label></td>
+                    <td><input id = "passw_2" type="password"  required placeholder="Confirmar Nueva Contraseña " name="passw_2">   </td>
+                </tr>
+            </table>
+            <p></p>
+            <h3 class="text-danger">las Contraseñas Ingresadas no Coinciden !</h3>
+
+            <p></p>
+            <input type="submit" class="btn btn-info" value="Guardar">
+        </div>
+
+        
+       
+        
+    </form>
+
+{% endblock content %}

@@ -37,6 +37,7 @@ urlpatterns = [
     path('',LoginView.as_view(template_name= 'Entrada/login.html'), name ='login'),
     #LOGOUT
     path('logout/',LogoutView.as_view(), name ='logout'),
+
     
     
     #REPORTES  EN EXCEL
@@ -50,6 +51,10 @@ urlpatterns = [
     path('home', login_required(index), name='home'),
     path('cpp/', login_required(base), name='base'),
     path('cirugia/', login_required(base_cirugia), name='base_cirugia'),
+    path('cambiar_pass_form/', login_required(cambiar_pass_form), name='cambiar_pass_form'),
+    path('cambiar_pass_form_error/', login_required(cambiar_pass_form_error), name='cambiar_pass_form_error'),
+    path('cambiar_pass/', login_required(cambiar_pass), name='cambiar_pass'),
+
     
     
     #REPORTES EN PDF
@@ -66,6 +71,11 @@ urlpatterns = [
     
     path('report_procediemtinso_excel/',Reporte_proc_excel.as_view(), name ='Reporte_proc_excel'),
     
+    #CONSULTA INFORMACION
+    path('consulta-procedimiento/',login_required(consulta_info), name ='consulta_info'),
+    path('limpiar_consulta/',login_required(limpiar_consulta), name ='limpiar_consulta'),
+    path('consulta-lista-proc/', login_required(data_proc_url), name='lista_proc_ajax'),
+ 
     #tipo_proc
     path('creartipo_proc/',login_required(tipo_procCrear.as_view()), name='tipo_proc_view'),
     path('listtipo_proc/',login_required(tipo_proc_list), name='tipo_proc_list'),
@@ -77,12 +87,6 @@ urlpatterns = [
     path('listprocedimiento/',login_required(procedimiento_list), name='procedimiento_list'),
     path('editprocedimiento/<int:id_>/', login_required(procedimientoEdit), name='procedimiento_edit'),
     path('elimprocedimiento/<int:id_>/', login_required(procedimientoElim), name='procedimiento_elim'),
-
-    #tiempo_proc
-    # path('creartiempo_proc/',login_required(tiempo_procCrear.as_view()), name='tiempo_proc_view'),
-    # path('listtiempo_proc/',login_required(tiempo_proc_list), name='tiempo_proc_list'),
-    # path('edittiempo_proc/<int:id_>/', login_required(tiempo_procEdit), name='tiempo_proc_edit'),
-    # path('elimtiempo_proc/<int:id_>/', login_required(tiempo_procElim), name='tiempo_proc_elim'),
 
     #concepto_honorario
     path('crearconcepto_honorario/',login_required(concepto_honorarioCrear.as_view()), name='concepto_honorario_view'),
@@ -109,7 +113,7 @@ urlpatterns = [
     path('elimposition/<int:id_>/', login_required(positionElim), name='position_elim'),
 
     #canasta
-    path('crearcanasta/',login_required(canastaCrear.as_view()), name='canasta_view'),
+    path('crearcanasta/',login_required(canastaCrear), name='canasta_view'),
     path('listcanasta/',login_required(canasta_list), name='canasta_list'),
     path('editcanasta/<int:id_>/', login_required(canastaEdit), name='canasta_edit'),
     path('elimcanasta/<int:id_>/', login_required(canastaElim), name='canasta_elim'),
@@ -352,7 +356,7 @@ urlpatterns = [
 
     #distri_serv_public
     path('listdistri_serv_public/',login_required(distri_serv_public_list), name='distri_serv_public_list'),
-    path('creardistri_serv_public/', login_required(distri_serv_publicCrear.as_view()), name='distri_serv_public_view'),
+    path('creardistri_serv_public/', login_required(distri_serv_publicCrear), name='distri_serv_public_view'),
     path('editdistri_serv_public/<int:pk>/', login_required(distri_serv_publicEdit.as_view()), name='distri_serv_public_edit'),
 
     #cpp_servi_detalle

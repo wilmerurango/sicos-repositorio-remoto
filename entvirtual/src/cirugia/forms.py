@@ -47,7 +47,10 @@ class concepto_honorarioform(forms.ModelForm):
             self.fields[field].widget.attrs.update({  
                 'class': 'form-control'  
             })
-                  
+        self.fields['nombre_concep_hon'].widget.attrs.update({
+                                        'onkeyup':"mayus(this);",
+                                        })
+                 
 class nombre_canastaform(forms.ModelForm):
     class Meta:
         model = nombre_canasta
@@ -76,6 +79,10 @@ class concepto_canastaform(forms.ModelForm):
             self.fields[field].widget.attrs.update({  
                 'class': 'form-control'  
             })
+            
+        self.fields['nombre_canasta'].widget.attrs.update({
+                                            'onkeyup':"mayus(this);",
+                                            })
        
 class positionform(forms.ModelForm):
     class Meta:
@@ -152,6 +159,10 @@ class concepto_salarioform(forms.ModelForm):
             self.fields[field].widget.attrs.update({  
                 'class': 'form-control'  
             })
+            
+        self.fields['nombre_concep_sal'].widget.attrs.update({
+                                            'onkeyup':"mayus(this);",
+                                            })
 
 class rubroform(forms.ModelForm):
     class Meta:
@@ -181,19 +192,30 @@ class salarioform(forms.ModelForm):
                 'class': 'form-control'  
             })
 
-
-# class tiempo_procform(forms.ModelForm):
+class consultaform(forms.ModelForm):
+    class Meta:
+        model = consulta
+        
+        fields =(
+            '__all__'
+        )
     
-#     class Meta:
-#         model = tiempo_proc
+    def __init__(self, *args, **kwargs):  
+        super().__init__(*args, **kwargs)  
+        for field in iter(self.fields):  
+            self.fields[field].widget.attrs.update({  
+                'class': 'form-control' 
+            })
         
-#         fields =(
-#             '__all__'
-#         )
+
+        self.fields['procedimiento'].queryset = procedimiento.objects.none()
         
-#     def __init__(self, *args, **kwargs):  
-#         super().__init__(*args, **kwargs)  
-#         for field in iter(self.fields):  
-#             self.fields[field].widget.attrs.update({  
-#                 'class': 'form-control'  
-#             })
+        if 'tipo_proc' in self.data:
+            try:
+                tipo_proc_id = int(self.data.get('tipo_proc'))
+                self.fields['procedimiento'].queryset = procedimiento.objects.filter(tipo_proc_id=tipo_proc_id).order_by('nombre_proc')
+            except (ValueError, TypeError):
+                print('Error') # invalid input from the client; ignore and fallback to empty City queryset
+        elif self.instance.pk:
+            self.fields['procedimiento'].queryset = self.instance.tipo_proc.procedimiento_set.order_by('nombre_proc')
+

@@ -74,10 +74,24 @@
       display: block;
       }
 
+    div table tr .color_verde {
+      background-color: rgb(0, 176, 80);
+    }
+    div table tr .color_blanco {
+      background-color: white;
+    }
+    div table tr .color_azul {
+      background-color: rgb(31,78,120);
+    }
+
   </style>
 
   <!-- este escripts es para ocultar los campos que no se requieren del formulario -->
   <script type="text/javascript">
+
+    function mayus(e) {
+      e.value = e.value.toUpperCase();
+  }
 
     function habilitar()
     {
@@ -175,9 +189,8 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
             <a class="dropdown-item" href="#">Settings</a>
-            <a class="dropdown-item" href="#">Activity Log</a>
+            <a class="dropdown-item" href="{%  url 'cambiar_pass_form' %}">Cambiar Contraseña</a>
             <div class="dropdown-divider"></div>
-            <!-- <a class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal" data-target="#logoutModal">Logout</a> -->
             <a class="dropdown-item" href="{% url 'logout' %}" data-target="#logoutModal"  >Logout</a>
           </div>
         </li>
@@ -230,9 +243,7 @@
       </a>
 
       <div  class="mencon dropdown-menu border border-success"  aria-labelledby="pagesDropdown">
-        <a class="dropdown-item" href="#">Procedimientos</a>
-
-
+        <a class="dropdown-item" href="{% url 'consulta_info' %}">Procedimientos</a>
       </div>
     </li>
 
