@@ -82,8 +82,8 @@ WSGI_APPLICATION = 'sicos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'clinicariodb2',
-        'USER': 'wilmerdun',
+        'NAME': 'funda_clinica_del_rio',
+        'USER': 'analista_costos',
         'PASSWORD': '09241995',
         'HOST': 'localhost',
         'PORT': '3306',

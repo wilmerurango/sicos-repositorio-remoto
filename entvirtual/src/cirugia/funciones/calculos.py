@@ -40,13 +40,14 @@ class calculo():
         
         # dependinedo del numero de registros obtener el nombre de la canasta
         if canasta_honorario.count()==1:
-            canasta_filtro = self.obj1.get(id = canasta_honorario.nombre_canasta.id)
+            canasta_filtro = self.obj1.get(id = canasta_honorario.first().nombre_canasta.id)
         else:
             canasta_filtro = self.obj1.get(id = canasta_honorario.first().nombre_canasta.id)
         
         datos_obte.append(canasta_filtro)#agregar el nombre de la cansta a la lista
         
         #CALCULAR EL VALOR TOTAL DE LA CANASTA
+        print('eeeeeeeeeeeeeeeee',canasta_filtro)
         canasta = self.obj4.filter(nombre_canasta = canasta_filtro)
         valor_canasta = 0
         for i in canasta:
@@ -90,11 +91,11 @@ class calculo():
         
         salario_fil = self.obj5.filter(tipo_proc = consul_ultimo.tipo_proc).filter(procedimiento = consul_ultimo.procedimiento)
         
-        salario_total = 0
-        for i in salario_fil:
-            salario_total += i.costo*consul_ultimo.procedimiento.duracion_proc
+        # salario_total = 0
+        # for i in salario_fil:
+        #     salario_total += i.costo*consul_ultimo.procedimiento.duracion_proc
             
-        datos_obte.append(salario_total)#agregar el valor del salario total a la lista
+        # datos_obte.append(salario_total)#agregar el valor del salario total a la lista
 
         valor_consul_aneste = 0
         valor_consul_esp = 0
@@ -106,9 +107,7 @@ class calculo():
             if i.concepto_salario.nombre_concep_sal[0:21]=="CONSULTA ESPECIALISTA":
                 valor_consul_esp += i.costo
             
-            if i.concepto_salario.nombre_concep_sal[0:21]=="CONSULTA ESPECIALISTA":
-                valor_consul_esp += i.costo
-            
-        
+        datos_obte.append(valor_consul_aneste)
+        datos_obte.append(valor_consul_esp)
         
         return datos_obte

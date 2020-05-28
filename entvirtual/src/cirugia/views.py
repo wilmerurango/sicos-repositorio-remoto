@@ -46,7 +46,6 @@ class Reporte_proc_excel(TemplateView):
         wb.save(response)
         return response
 
-
 #vista de consulta de datos
 def consulta_info(request):
     consul = consulta.objects.all()#eso tambien es un dato de entrada como los que estan dentro del IF de abajo
@@ -84,7 +83,9 @@ def consulta_info(request):
                                                             'paquete_desechable':datos.resultado()[5],
                                                             'otro':datos.resultado()[6],
                                                             'papeleria':datos.resultado()[7],
-                                                            'salario':datos.resultado()[8],
+                                                            # 'salario':datos.resultado()[8],
+                                                            'consul_anestecia':datos.resultado()[8],
+                                                            'consul_especialista':datos.resultado()[9],
                                                             })
     else:
         return render(request,'cirugia/consulta_info.html',{'form':form})
@@ -344,6 +345,9 @@ def positionElim(request, id_):
 
 #canasta
 def canasta_list(request):
+    for i in canasta.objects.all(): 
+        i.costo_tot = i.costo_und*i.cantidad
+        i.save()
     
     # archi = xlrd.open_workbook('C:\\CPP\\entvirtual\\src\\cirugia\\archivo.xlsx', on_demand=True)
     # hoja1 = archi.sheet_by_index(10)
@@ -389,11 +393,10 @@ def canasta_list(request):
     #     w.costo_und = costo
         
     #     w.save()
-        
     
-    canasta_1 = canasta.objects.all()
-    contexto = {'canastas':canasta_1}
-    return render(request, 'cirugia/canasta_list.html',contexto)
+    # canasta_1 = canasta.objects.all()
+    # contexto = {'canastas':canasta_1}
+    # return render(request, 'cirugia/canasta_list.html',contexto)
 
 def canastaEdit(request,id_):
     canasta1 = canasta.objects.get(id = id_)
@@ -628,6 +631,15 @@ def salario_list(request):
     
     # archi = xlrd.open_workbook('C:\\CPP\\entvirtual\\src\\cirugia\\archivo.xlsx', on_demand=True)
     # hoja1 = archi.sheet_by_index(13)
+    
+    # cont = 1
+    # for i in salario.objects.all():
+    #     i.costo = hoja1.cell_value(cont,5)
+    #     i.save()
+    #     cont += 1
+    
+    
+    
     # cont = 1
     # for i in salario.objects.all():
         
