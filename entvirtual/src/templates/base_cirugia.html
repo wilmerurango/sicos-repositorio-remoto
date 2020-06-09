@@ -12,7 +12,7 @@
 
   <title>SICOS - {% block title %}Pagina Principal{% endblock title%}</title>
 
-
+  <link href="{% static 'css/java-error-404.css' %}" rel="stylesheet" type="text/css">
 
   <!-- Custom fonts for this template-->
   <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
@@ -35,6 +35,8 @@
 
   <!-- estilos relizados a mano -->
   <style>
+
+
     tbody{
       background: rgb(206, 214, 214)
     }
@@ -133,7 +135,7 @@
 
 </head>
 
-<body onload="habilitar()" >
+<body onload="habilitar()">
 
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
@@ -227,8 +229,9 @@
         <a class="dropdown-item" href="{% url 'honorario_list' %}">Honorario</a>
         <a class="dropdown-item" href="{% url 'constante_list' %}">Constantes</a>
         <a class="dropdown-item" href="{% url 'concepto_salario_list' %}">Concepto Salario</a>
-        <!-- <a class="dropdown-item" href="{% url 'rubro_list' %}">Rubro</a> -->
         <a class="dropdown-item" href="{% url 'salario_list' %}">Salario</a>
+        <a class="dropdown-item" href="{% url 'tipo_estancia_list' %}">Tipos de Estancia</a>
+        <a class="dropdown-item" href="{% url 'estancia_list' %}">Estancia</a>
 
 
 

@@ -5,7 +5,6 @@ from cirugia.models import *
 
 admin.site.register(tipo_proc)
 admin.site.register(procedimiento)
-# admin.site.register(tiempo_proc)
 admin.site.register(concepto_honorario)
 admin.site.register(nombre_canasta)
 admin.site.register(concepto_canasta)
@@ -14,7 +13,7 @@ admin.site.register(canasta)
 admin.site.register(honorario)
 admin.site.register(constante)
 admin.site.register(concepto_salario)
-admin.site.register(rubro)
+admin.site.register(estancia)
 admin.site.register(salario)
 admin.site.register(consulta)
 

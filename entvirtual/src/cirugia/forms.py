@@ -164,9 +164,23 @@ class concepto_salarioform(forms.ModelForm):
                                             'onkeyup':"mayus(this);",
                                             })
 
-class rubroform(forms.ModelForm):
+class estanciaform(forms.ModelForm):
     class Meta:
-        model = rubro
+        model = estancia
+        fields =(
+            '__all__'
+        )
+        
+    def __init__(self, *args, **kwargs):  
+        super().__init__(*args, **kwargs)  
+        for field in iter(self.fields):  
+            self.fields[field].widget.attrs.update({  
+                'class': 'form-control'  
+            })
+            
+class tipo_estanciaform(forms.ModelForm):
+    class Meta:
+        model = tipo_estancia
         fields =(
             '__all__'
         )
@@ -218,4 +232,3 @@ class consultaform(forms.ModelForm):
                 print('Error') # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
             self.fields['procedimiento'].queryset = self.instance.tipo_proc.procedimiento_set.order_by('nombre_proc')
-

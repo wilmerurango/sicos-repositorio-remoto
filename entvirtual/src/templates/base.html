@@ -16,7 +16,8 @@
   <!-- ARCHIVOS PARA G¿HACER EL DIAGRAMA DE ARBOL -->
   <!-- <script type="text/javascript" src="{% static 'vendor/jquery/jquery.min.js' %}"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
-	<script type="text/javascript" src="{% static 'jstree/bootstrap.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'jstree/bootstrap.min.js' %}"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>  <!-- esto es para recargar partte de la pagina-->
   <script src="{% static 'jstree/jstree.min.js' %}"></script>
   <!-- <link rel="stylesheet" href="{% static 'jstree/themes/default/style.min.css' %}"/> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
@@ -93,66 +94,60 @@
   </style>
 
 
-<script type="text/javascript">
-
-  function habilitar()
-  {
-    var campo2 = document.getElementById("camp2");
-    var campo6 = document.getElementById("camp6");
-    var campo7 = document.getElementById("camp7");
-    var campo11 = document.getElementById("camp11");
-    var cajaa = document.getElementById("caja");
-    var op = document.getElementById("option");
-
-    if (campo11.value != "0")
+  <script type="text/javascript">
+    function habilitar()
     {
-      if(campo11.value == campo2.value)/*si es un gas*/
-      {
-        cajaa.style.display ="none";/*esto oculta el campo correspondiente a centro_costo*/
-        campo6.style.display ="none";/*esto oculta el campo correspondiente a valor_produc*/
-        op.style.display = "none";
+      var campo2 = document.getElementById("camp2");
+      var campo6 = document.getElementById("camp6");
+      var campo7 = document.getElementById("camp7");
+      var campo11 = document.getElementById("camp11");
+      var cajaa = document.getElementById("caja");
+      var op = document.getElementById("option");
 
-      }else/*si no es un gas*/
+      if (campo11.value != "0")
       {
-        campo7.style.display ="none";/*esto oculta el campo correspondiente a cant_flete*/
+        if(campo11.value == campo2.value)/*si es un gas*/
+        {
+          cajaa.style.display ="none";/*esto oculta el campo correspondiente a centro_costo*/
+          campo6.style.display ="none";/*esto oculta el campo correspondiente a valor_produc*/
+          op.style.display = "none";
 
+        }else/*si no es un gas*/
+        {
+          campo7.style.display ="none";/*esto oculta el campo correspondiente a cant_flete*/
+
+        }
       }
+
+    }  
+
+    function oculta()
+    {
+      var producto = document.getElementById("produc");
+      var producto2 = document.getElementById("produc2");
+
+      producto.style.display = "none";
+      producto2.style.display = "none";
+
     }
-
-  }  
-
-  function oculta()
-  {
-    var producto = document.getElementById("produc");
-    var producto2 = document.getElementById("produc2");
-
-    producto.style.display = "none";
-    producto2.style.display = "none";
-
-  }
-  
-  function mostrar()
-  {
-    var producto = document.getElementById("produc");
-    var producto2 = document.getElementById("produc2");
     
-    producto.style.display = "inline-block";
-    producto2.style.display = "inline-block";
-  }
-  
-  function ConfirmDemo() 
-  {
-    var mensaje = confirm("¿Quieres Ver la Tabla Contable?");
-    return mensaje
-  }
+    function mostrar()
+    {
+      var producto = document.getElementById("produc");
+      var producto2 = document.getElementById("produc2");
+      
+      producto.style.display = "inline-block";
+      producto2.style.display = "inline-block";
+    }
+    
+    function ConfirmDemo() 
+    {
+      var mensaje = confirm("¿Quieres Ver la Tabla Contable?");
+      return mensaje
+    }
+    
+  </script>
 
-  function ElimRegistro() 
-  {
-    var registro = confirm("¿Esta Seguro de Elimar el registro?");
-    return registro
-  }
-
-</script>
 
 </head>
 
@@ -331,7 +326,7 @@
 
             <li id="8">CPP
               <ul>
-                <li data-jstree='{ "icon":"glyphicon glyphicon-menu-right" }'id="{% url 'fac_especialista_list' %}">Especialistas</li>
+                <li data-jstree='{ "icon":"glyphicon glyphicon-menu-right" }'id="{% url 'fac_especialista_list' %}"><a href="#" id="especialis" >Especialistas</a></li>
                 <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'cpp_arriendo_list' %}">Arriendos</li>
                 <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'cpp_proveedor_list' %}">Proveedores</li>  
                 <li data-jstree='{ "icon":"glyphicon glyphicon-thumbs-up" }'id="{% url 'cpp_serv_public_list' %}">Servicios</li>
@@ -372,15 +367,17 @@
     </div>
 
     <!-- /.container-fluid -->
+    
     <div class="container-fluid"> 
-
       {% block content %}
-
+      
         <img src="{% static 'img/clinicario.jpeg'%}" alt="logo clinica del rio" width=100%   height=100%>
+
+      
          
       {% endblock content %}
-
     </div>
+   
 
 
     <!-- Sticky Footer NO QUITAR-->
@@ -423,7 +420,8 @@
         (data.node.id != 7) &&
         (data.node.id != 8) &&
         (data.node.id != 9) 
-        ){
+        )
+        {
           window.location= data.node.id;
         //alert("node_id: " + data.node.id);
         }

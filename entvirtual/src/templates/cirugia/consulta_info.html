@@ -1,5 +1,5 @@
 {% extends 'base_cirugia.html' %}
-
+{% load humanize %}  
 
 {% block title %}
     Consulta de Procedimientos
@@ -8,8 +8,10 @@
 
 {% block content %}
 
+<a class= "btn btn-success" href= "{% url 'Reporte_honor_excel' %}" >Reporte Honorario<ion-icon name="add"></ion-icon></a>
+
     <div class="content col-sm-5 border border-success">
-        <h3>Tabla de Consultaaa</h3>
+        <h3>Tabla de Consulta</h3>
         <form method="post" id="consulta_infor_form" data-proc-url="{% url 'lista_proc_ajax' %}"> 
             {% csrf_token %}
 
@@ -52,7 +54,7 @@
             <table class="table table-bordered table-responsive dataTable table table-hover"  id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                 <tr>
                     <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>COSTO TOTAL: </strong> </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>$$$$$$$$$$$$</strong> </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong> ${{total|intcomma}} </strong> </font></font></td>
                     <td class="color_blanco"></td>
                     <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TIPO_PROCEDIMIENTO: </font></font></td>
                     <td class="small " colspan="4"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>{{consul_ultimo.tipo_proc.nombre_tipo_proc}}</strong> </font></font></td>
@@ -62,7 +64,7 @@
 
                 <tr>
                     <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>TIEMPO_PROCEDIMIENTO:</strong> </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>$$$$$</strong> </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>{{duracion}}</strong> </font></font></td>
                     <td class="color_blanco"></td>
                     <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PROCEDIMIENTO:</font></font></td>
                     <td class="small" colspan="4"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><strong>{{consul_ultimo.procedimiento.nombre_proc}}</strong></font></font></td>
@@ -88,17 +90,17 @@
                     <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">MEDICAMENTOS </font></font></td>
                     <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">DISPOSITIVOS_MÉDICOS</font></font></td>
                     <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">PAQUETES_REUTILIZABLES</font></font></td>
-                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OTROS</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OTROS_CONCEPTOS</font></font></td>
                 </tr>
 
                 <tr>
                     <td class="small " colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center>{{ canasta}}</center> </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{valor_canasta}}</font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {{desechable}}  </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {{medicamento }} </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> {{dispositivos}}  </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{paquete_desechable}}  </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{otro}} </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  $ {{valor_canasta|intcomma}}</font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> $ {{desechable|intcomma}}  </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> $ {{medicamento|intcomma }} </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> $ {{dispositivos|intcomma}}  </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  $ {{paquete_desechable|intcomma}}  </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  $ {{otro|intcomma}} </font></font></td>
                 </tr>
 
                 <tr>
@@ -123,15 +125,15 @@
                     <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SALARIO_INSTRUMENTADOR</font></font></td>
                     <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SALARIO_MEDICO_AYUDANTE</font></font></td>
                     <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SALARIO_ENFERMERA</font></font></td>
-                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OTROS</font></font></td>
+                    <!-- <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OTROS</font></font></td> -->
                 </tr>
 
                 <tr>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> </font></font></td>
-                                        <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{consul_anestecia}} </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{consul_especialista}} </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> $ {{sal_total|intcomma}}</font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  $ {{sal_instrument|intcomma}}</font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  $ {{sal_med_ayudante|intcomma}} </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  $ {{sal_enfermera|intcomma}} </font></font></td>
+                    <!-- <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{sal_otros|intcomma}}  </font></font></td> -->
                 </tr>
 
 
@@ -147,9 +149,9 @@
                 </tr>
 
                 <tr>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> $ {{total_consul|intcomma}} </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   $ {{consul_anestecia|intcomma}} </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> $ {{consul_especialista|intcomma}}  </font></font></td>
                 </tr>
 
                 <tr>
@@ -162,7 +164,7 @@
                 </tr>
 
                 <tr>
-                    <td class="small "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">    </font></font></td>
+                    <td class="small "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  $ {{dere_sala|intcomma}}  </font></font></td>
                 </tr>
 
                 <tr>
@@ -177,9 +179,9 @@
                 </tr>
 
                 <tr>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> $ {{valor_estancia|intcomma}} </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{dias_estancia}} </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  $ {{valor_estancia_unit|intcomma}} </font></font></td>
                 </tr>
 
 
@@ -188,12 +190,12 @@
                 </tr>
 
                 <tr>
-                    <td class="small color_azul text-white " rowspan="4" colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center><strong>HONORARIOS</strong></center> </font></font></td>
+                    <td class="small color_azul text-white " rowspan="20" colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center><strong>HONORARIOS</strong></center> </font></font></td>
                     <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HONORARIO_DEL_ANESTECIOLOGO</font></font></td>
                 </tr>
 
                 <tr>
-                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  </font></font></td>
+                    <td class="small"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> $ {{honor_anestecio|intcomma}} </font></font></td>
                 </tr>
 
                 <tr>
@@ -201,12 +203,17 @@
                 </tr>
 
                 <tr>
-                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OPCIÓN</font></font></td>
-                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CONCEPTO</font></font></td>
+                    <td class="small color_verde text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CONCEPTO</font></font></td>
                     <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">HONORARIO_DEL_ESPECIALISTA</font></font></td>
-                    <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OPCIÓN_COSTO_TOTAL</font></font></td>
+                    <!-- <td class="small color_verde text-white "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">OPCIÓN_COSTO_TOTAL</font></font></td> -->
                 </tr>
-
+                {% for honor in honorario %}  
+                    <tr>
+                        <td class="small "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  {{honor.concepto_honorario.nombre_concep_hon}}  </font></font></td>
+                        <td class="small "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  $ {{honor.costo|intcomma}}  </font></font></td>
+                        <!-- <td class="small "><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">   </font></font></td> -->
+                    </tr>
+                {% endfor %}
 
             </table>
 

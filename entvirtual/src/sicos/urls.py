@@ -25,6 +25,10 @@ from cirugia.views import *
 from django.conf import settings
 from django.views.static import serve
 
+from django.conf.urls import handler404
+
+# handler404 = mi_error_404
+
 
 # from django.contrib.auth.decorators import login, logout_then_login
 
@@ -67,9 +71,10 @@ urlpatterns = [
     #servicios
     path('reporte_pdf_servicios/<int:id_>/',login_required(Reporte_servicios_Pdf),name='reporte_pdf_servicios'),
 
-    #CIRUGIA
-    
+    #CIRUGIA=============================================================================================================
     path('report_procediemtinso_excel/',Reporte_proc_excel.as_view(), name ='Reporte_proc_excel'),
+    path('report_honorario_excel/',Reporte_Honorarios_excel.as_view(), name ='Reporte_honor_excel'),
+    
     
     #CONSULTA INFORMACION
     path('consulta-procedimiento/',login_required(consulta_info), name ='consulta_info'),
@@ -136,11 +141,17 @@ urlpatterns = [
     path('editconcepto_salario/<int:id_>/', login_required(concepto_salarioEdit), name='concepto_salario_edit'),
     path('elimconcepto_salario/<int:id_>/', login_required(concepto_salarioElim), name='concepto_salario_elim'),
 
-    #rubro
-    path('crearrubro/',login_required(rubroCrear.as_view()), name='rubro_view'),
-    path('listrubro/',login_required(rubro_list), name='rubro_list'),
-    path('editrubro/<int:id_>/', login_required(rubroEdit), name='rubro_edit'),
-    path('elimrubro/<int:id_>/', login_required(rubroElim), name='rubro_elim'),
+    # estancia
+    path('crearestancia/',login_required(estanciaCrear.as_view()), name='estancia_view'),
+    path('listestancia/',login_required(estancia_list), name='estancia_list'),
+    path('editestancia/<int:id_>/', login_required(estanciaEdit), name='estancia_edit'),
+    path('elimestancia/<int:id_>/', login_required(estanciaElim), name='estancia_elim'),
+    
+    # Tipo Estancia
+    path('creartipo_estancia/',login_required(tipo_estanciaCrear.as_view()), name='tipo_estancia_view'),
+    path('listtipo_estancia/',login_required(tipo_estancia_list), name='tipo_estancia_list'),
+    path('edittipo_estancia/<int:id_>/', login_required(tipo_estanciaEdit), name='tipo_estancia_edit'),
+    path('elimtipo_estancia/<int:id_>/', login_required(tipo_estanciaElim), name='tipo_estancia_elim'),
 
     #salario
     path('crearsalario/',login_required(salarioCrear.as_view()), name='salario_view'),
@@ -148,7 +159,7 @@ urlpatterns = [
     path('editsalario/<int:id_>/', login_required(salarioEdit), name='salario_edit'),
     path('elimsalario/<int:id_>/', login_required(salarioElim), name='salario_elim'),
 
-
+    
 
 
 

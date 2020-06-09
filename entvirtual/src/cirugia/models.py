@@ -15,9 +15,9 @@ class procedimiento(models.Model):
     cod = models.CharField('Código', null = True, max_length = 20, blank = True)
     tipo_proc = models.ForeignKey(tipo_proc,verbose_name = 'Especialidad', null = True, on_delete=models.CASCADE)
     nombre_proc = models.CharField('Nombre del Procedimiento', null = True, max_length = 190)
-    duracion_proc = models.FloatField('Duración del Procedimiento', null = True)
+    duracion_proc = models.FloatField('Duración en minutos', null = True)
     uvr =  models.FloatField('UVR', null = True, blank = True, default = 0)
-
+    dias_estancia = models.IntegerField('Días Estancia', null = True, default = 0)
     
     def __str__(self):
         return '%s' % (self.nombre_proc)
@@ -69,7 +69,7 @@ class canasta(models.Model):
     position =  models.ForeignKey(position, verbose_name ='Ubicación', null = True,blank=True, max_length = 20, on_delete = models.CASCADE)
     nombre_insumo = models.CharField('Nombre Insumo', null = True, max_length = 120)
     presentacion  = models.CharField('Presentación', null = True, blank=True, max_length = 20)
-    cantidad =  models.IntegerField('Cantidad', null = True, default = 1)
+    cantidad =  models.FloatField('Cantidad', null = True, default = 1)
     costo_und =  models.FloatField('Costo Unitario', null = True)
     costo_tot =  models.FloatField('Costo Subtotal', null = True, default=0)#este campo es calculado
     
@@ -82,7 +82,7 @@ class honorario(models.Model):
     concepto_honorario = models.ForeignKey(concepto_honorario,verbose_name = 'Concepto', null = True, on_delete=models.CASCADE)
     # duracion = models.FloatField('Duración', null = True)
     # uvr =  models.FloatField('UVR', null = True)
-    info = models.TextField('Información', null = True)
+    info = models.TextField('Información', null = True, blank =  True)
     costo = models.FloatField('Costo no Paramertrizado', null = True, blank = True, default=0)
     # subtotal = models.FloatField('Subtotal', null = True)
     
@@ -90,6 +90,7 @@ class honorario(models.Model):
 class constante(models.Model):
     iss_adicional = models.FloatField('Porcentaje Ganancia', null = True)
     valor_uvt = models.FloatField('Valor UVT Especialistas', null = True, default = 0)
+    smdlv = models.FloatField('Salaraio Minimo Diario L.V.', null = True, default = 0)
     
     
     def __str__(self):
@@ -107,15 +108,22 @@ class concepto_salario(models.Model):
     class Meta:
         ordering = ['nombre_concep_sal']
     
+class tipo_estancia(models.Model):
+    nombre_tipo_est = models.CharField('Tipo de Estancia', null =  True, max_length = 60)
+    numero_camas = models.IntegerField('Número de Camas', null =  True, default = 0)
 
-class rubro(models.Model):
-    nombre_rubro = models.CharField('Rubro', null = True, max_length = 40)
+    def __str__(self):
+        return '%s' % (self.nombre_tipo_est)
+
+class estancia(models.Model):
+    tipo_estancia = models.ForeignKey(tipo_estancia, null=True, on_delete=models.CASCADE, verbose_name = "Tipo de Estancia")
+    concepto_estancia = models.CharField('Concepto Estancia', null = True, max_length = 40)
+    valor_concepto = models.FloatField('Valor día',null=True, default = 0)
+    dividir_por_cama = models.BooleanField('¿Se divide entre el número de camas ?', default = True)
     
     def __str__(self):
-        return '%s' % (self.nombre_rubro)
-    
-    class Meta:
-        ordering = ['nombre_rubro']
+        return '%s' % (self.concepto_estancia)
+
     
 class salario(models.Model):
     tipo_proc = models.ForeignKey(tipo_proc,verbose_name = 'Tipo Procedimiento', null = True, on_delete=models.CASCADE)

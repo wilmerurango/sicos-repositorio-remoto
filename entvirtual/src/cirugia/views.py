@@ -3,6 +3,7 @@ from django.shortcuts import render , redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, View
 from django.contrib.auth.models import User
+from django.views.defaults import page_not_found
 
 #exportar excel
 from django.http.response import HttpResponse
@@ -19,7 +20,9 @@ import numpy as np
 import xlrd
 from copy import copy
 
-# REPORTE EN EXCEL DE LOS PROCEDIMINETOS 
+import copy as cp
+
+# REPORTE EN EXCEL
 class Reporte_proc_excel(TemplateView):
     
     def get(self, request, *args, **kwargs):
@@ -46,9 +49,55 @@ class Reporte_proc_excel(TemplateView):
         wb.save(response)
         return response
 
+class Reporte_Honorarios_excel(TemplateView):
+    
+    def get(self, request, *args, **kwargs):
+        
+        honor = honorario.objects.all()
+        wbb = Workbook()
+        wss = wbb.active
+        wss['A1'] = 'REPORTE DETALLADO DE LOS HONORARIOS'
+        
+        wss['A2']= 'ID'
+        wss['B2']= 'Especialidad'
+        wss['C2']= 'Nombre del Procedimiento'
+        wss['D2']= 'Canasta'
+        wss['E2']= 'Concepto'
+        wss['F2']= 'Información'
+        wss['G2']= 'Costo no Paramertrizado'
+        
+        cont = 3
+        for i in honor:
+            wss.cell(row=cont, column = 1).value = i.id
+            wss.cell(row=cont, column = 2).value = format(i.tipo_proc)
+            wss.cell(row=cont, column = 3).value = format(i.procedimiento)
+            wss.cell(row=cont, column = 4).value = format(i.nombre_canasta)
+            wss.cell(row=cont, column = 5).value = format(i.concepto_honorario)
+            wss.cell(row=cont, column = 6).value = i.info
+            wss.cell(row=cont, column = 7).value = i.costo
+            
+            cont +=1
+        
+        nombre_report = "Reporte_honorario_excel.xlsx"
+        response = HttpResponse(content_type="application/ms-excel")
+        content = "attachment; filename = {0}".format(nombre_report)
+        response['content-Disposition'] = content
+        wbb.save(response)
+        return response
+    
+
+# pagina de error
+def mi_error_404(request):
+    nombre_template = '404.html'
+
+    return page_not_found(request, template_name=nombre_template)
+
+
 #vista de consulta de datos
 def consulta_info(request):
     consul = consulta.objects.all()#eso tambien es un dato de entrada como los que estan dentro del IF de abajo
+    
+   
 
     if request.method == 'POST' :
         form = consultaform(request.POST)
@@ -66,26 +115,41 @@ def consulta_info(request):
         honora = honorario.objects.all()
         canast = canasta.objects.all()
         salar = salario.objects.all()
+        procedi = procedimiento.objects.all()
+        estan = estancia.objects.all()
+        tipo_estan = tipo_estancia.objects.all()
+        constant = constante.objects.all()
         
         #FUNCION
-        datos = calculo(name_cansta,honora, consul, canast, salar)
+        datos = calculo(name_cansta,honora, consul, canast, salar, procedi, estan, tipo_estan,constant)
         datos.resultado()
-        
-        print(datos.resultado()[1])
-        
+
+        print('esta es el objeto ',datos.resultado()[21])
         return render(request,'cirugia/consulta_info.html',{'form':form, 
                                                             'consul_ultimo':consul_ultimo,
                                                             'canasta':datos.resultado()[0].nombre_canasta,
-                                                            'valor_canasta':datos.resultado()[1],
-                                                            'desechable':datos.resultado()[2],
-                                                            'medicamento':datos.resultado()[3],
-                                                            'dispositivos':datos.resultado()[4],
-                                                            'paquete_desechable':datos.resultado()[5],
-                                                            'otro':datos.resultado()[6],
-                                                            'papeleria':datos.resultado()[7],
-                                                            # 'salario':datos.resultado()[8],
-                                                            'consul_anestecia':datos.resultado()[8],
-                                                            'consul_especialista':datos.resultado()[9],
+                                                            'valor_canasta':round(datos.resultado()[1]),
+                                                            'desechable':round(datos.resultado()[2]),
+                                                            'medicamento':round(datos.resultado()[3]),
+                                                            'dispositivos':round(datos.resultado()[4]),
+                                                            'paquete_desechable':round(datos.resultado()[5]),
+                                                            'otro':round(datos.resultado()[6]),
+                                                            'papeleria':round(datos.resultado()[7]),
+                                                            'duracion':round(datos.resultado()[8]),
+                                                            'consul_anestecia':round(datos.resultado()[9]),
+                                                            'consul_especialista':round(datos.resultado()[10]),
+                                                            'total_consul':round(datos.resultado()[11]),
+                                                            'sal_instrument': round(datos.resultado()[12]),
+                                                            'sal_med_ayudante': round(datos.resultado()[13]),
+                                                            'sal_enfermera': round(datos.resultado()[14]),
+                                                            'sal_total': round(datos.resultado()[15]),
+                                                            'honor_anestecio': round(datos.resultado()[16]),
+                                                            'dere_sala': round(datos.resultado()[17]),
+                                                            'valor_estancia':round(datos.resultado()[18]),
+                                                            'dias_estancia':round(datos.resultado()[19]),
+                                                            'valor_estancia_unit':round(datos.resultado()[20]),
+                                                            'honorario':datos.resultado()[21],
+                                                            'total':datos.resultado()[22],
                                                             })
     else:
         return render(request,'cirugia/consulta_info.html',{'form':form})
@@ -139,6 +203,13 @@ def procedimiento_list(request):
     # hoja1 = archi.sheet_by_index(11)
     
     # art = procedimiento.objects.all()
+    # contador = 1
+    # for i in art:
+    #     i.dias_estancia = hoja1.cell_value(contador,2)
+    #     i.save()
+    #     contador += 1
+    
+    
     # # ult = tipo_proc.objects.get(id = 6)
     
     # contador = 1
@@ -345,58 +416,24 @@ def positionElim(request, id_):
 
 #canasta
 def canasta_list(request):
-    for i in canasta.objects.all(): 
-        i.costo_tot = i.costo_und*i.cantidad
-        i.save()
+    # for i in canasta.objects.all(): 
+    #     i.costo_tot = i.costo_und*i.cantidad
+    #     i.save()
     
     # archi = xlrd.open_workbook('C:\\CPP\\entvirtual\\src\\cirugia\\archivo.xlsx', on_demand=True)
     # hoja1 = archi.sheet_by_index(10)
     # cont = 1
     # for i in canasta.objects.all(): 
-    #     pos = hoja1.cell_value(cont,2)
+    # #     pos = hoja1.cell_value(cont,2)
+    #     if 
+    # recuper = canasta.objects.filter(concepto_canasta = 6 )
+    # for i in recuper:
+    #     i.costo_tot = i.cantidad*i.costo_und
+    #     i.save()
     
-    #     for m in position.objects.all():
-    #         if pos == m.nombre_act:
-    #             i.position = m
-    #             i.save()
-    #     cont += 1
-    
-    # for i in range(1,hoja1.nrows): 
-    #     n_canas = hoja1.cell_value(i,0)
-    #     concep = hoja1.cell_value(i,1)
-        # pos = hoja1.cell_value(cont,2)
-    #     insumo = hoja1.cell_value(i,3)
-    #     presen = hoja1.cell_value(i,4)
-    #     canti = hoja1.cell_value(i,5)
-    #     costo = hoja1.cell_value(i,6)
-        
-        
-        # w = canasta()
-        
-    #     for j in nombre_canasta.objects.all():
-    #         if n_canas == j.nombre_canasta:
-    #             w.nombre_canasta = j
-                
-        
-    #     for k in concepto_canasta.objects.all():
-    #         if concep == k.nombre_canasta:
-    #             w.concepto_canasta = k
-                
-        
-        # for l in position.objects.all():
-        #     if pos == l.nombre_act:
-        #         w.position = l
-                
-    #     w.nombre_insumo = insumo
-    #     w.presentacion = presen
-    #     w.cantidad = canti
-    #     w.costo_und = costo
-        
-    #     w.save()
-    
-    # canasta_1 = canasta.objects.all()
-    # contexto = {'canastas':canasta_1}
-    # return render(request, 'cirugia/canasta_list.html',contexto)
+    canasta_1 = canasta.objects.all()
+    contexto = {'canastas':canasta_1}
+    return render(request, 'cirugia/canasta_list.html',contexto)
 
 def canastaEdit(request,id_):
     canasta1 = canasta.objects.get(id = id_)
@@ -437,15 +474,15 @@ def canastaElim(request, id_):
 #honorario
 def honorario_list(request):
     
-    # archi = xlrd.open_workbook('C:\\CPP\\entvirtual\\src\\cirugia\\archivo.xlsx', on_demand=True)
-    # hoja1 = archi.sheet_by_index(12)
+    archi = xlrd.open_workbook('C:\\CPP\\entvirtual\\src\\cirugia\\archivo.xlsx', on_demand=True)
+    hoja1 = archi.sheet_by_index(14)
     
     # cont  = 1
     # for i in honorario.objects.all():
-    #     i.costo =0
+    #     costo = hoja1.cell_value(cont,9)
+    #     i.costo = costo
     #     i.save()
-    #     cana = hoja1.cell_value(cont,2)
-    #     concep = hoja1.cell_value(cont,3)
+    #     cont += 1
         
     #     for m in nombre_canasta.objects.all():
     #         if cana == m.nombre_canasta:
@@ -595,34 +632,64 @@ def concepto_salarioElim(request, id_):
 
 
 
-#rubro
-def rubro_list(request):
-    rubro_1 = rubro.objects.all()
-    contexto = {'rubros':rubro_1}
-    return render(request, 'cirugia/rubro_list.html',contexto)
+#tipo_estancia
+def tipo_estancia_list(request):
+    tipo_estancia_1 = tipo_estancia.objects.all()
+    contexto = {'tipo_estancias':tipo_estancia_1}
+    return render(request, 'cirugia/tipo_estancia_list.html',contexto)
 
-def rubroEdit(request,id_):
-    rubro1 = rubro.objects.get(id = id_)
+def tipo_estanciaEdit(request,id_):
+    tipo_estancia1 = tipo_estancia.objects.get(id = id_)
     if request.method == 'GET':
-        form = rubroform(instance = rubro1)
+        form = tipo_estanciaform(instance = tipo_estancia1)
     else:
-        form = rubroform(request.POST, instance = rubro1)
+        form = tipo_estanciaform(request.POST, instance = tipo_estancia1)
         if form.is_valid():
             form.save()
-        return redirect('rubro_list')
+        return redirect('tipo_estancia_list')
     contexto = {'form':form}
-    return render(request, 'cirugia/rubro_form.html',contexto) 
+    return render(request, 'cirugia/tipo_estancia_form.html',contexto) 
 
-class rubroCrear(CreateView):
-    model = rubro
-    form_class = rubroform
-    template_name = 'cirugia/rubro_form.html'
-    success_url=reverse_lazy('rubro_list')
+class tipo_estanciaCrear(CreateView):
+    model = tipo_estancia
+    form_class = tipo_estanciaform
+    template_name = 'cirugia/tipo_estancia_form.html'
+    success_url=reverse_lazy('tipo_estancia_list')
 
-def rubroElim(request, id_):
-    rubro1 = rubro.objects.get(id = id_)
-    rubro1.delete()
-    return redirect('rubro_list')
+def tipo_estanciaElim(request, id_):
+    tipo_estancia1 = tipo_estancia.objects.get(id = id_)
+    tipo_estancia1.delete()
+    return redirect('tipo_estancia_list')
+
+
+#estancia
+def estancia_list(request):
+    estancia_1 = estancia.objects.all()
+    contexto = {'estancias':estancia_1}
+    return render(request, 'cirugia/estancia_list.html',contexto)
+
+def estanciaEdit(request,id_):
+    estancia1 = estancia.objects.get(id = id_)
+    if request.method == 'GET':
+        form = estanciaform(instance = estancia1)
+    else:
+        form = estanciaform(request.POST, instance = estancia1)
+        if form.is_valid():
+            form.save()
+        return redirect('estancia_list')
+    contexto = {'form':form}
+    return render(request, 'cirugia/estancia_form.html',contexto) 
+
+class estanciaCrear(CreateView):
+    model = estancia
+    form_class = estanciaform
+    template_name = 'cirugia/estancia_form.html'
+    success_url=reverse_lazy('estancia_list')
+
+def estanciaElim(request, id_):
+    estancia1 = estancia.objects.get(id = id_)
+    estancia1.delete()
+    return redirect('estancia_list')
 
 
 

@@ -1,19 +1,19 @@
 {% extends 'base_cirugia.html' %}
-{% load humanize %}  
+
 
 {% block title %}
-    Constante
+  Estancia
 {% endblock title %}
 
 
 {% block content %}
 
-  <a class= "btn btn-success" href= "{% url 'constante_view' %}" >Crear Constante<ion-icon name="add"></ion-icon></a>
-
-      <div class="card mb-3">
+  <a class= "btn btn-success" href= "{% url 'estancia_view' %}" >Crear Estancia<ion-icon name="add"></ion-icon></a>
+  
+    <div class="card mb-3">
             <div class="card-header">
                     <i class="fas fa-table"></i>
-                    Constante
+                    Estancia
                   </div>
             
                     <!-- <form>
@@ -21,7 +21,7 @@
                       <input type="search" placeholder="Código" name="filtroidcpp" aria-controls="dataTable">
                       <button type="submit" name="botonfiltrocpp">Filtrar</button>
                     </form> -->
-                  {%if constantes %}
+                  {%if estancias %}
                   <div class="card-body">
                     <div class="table-responsive " >
                 
@@ -29,24 +29,24 @@
                             <thead>
                               <tr role="row">
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
-                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Porcentaje_Ganancia</font></font></th>
-                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor_UVT_ESpecialistas</font></font></th>
-                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Salario_Minimo_Diario_lV</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tipo de Estancia</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Concepto</font></font></th>
+                                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valor Día</font></font></th>
                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th>
                               </tr>
                             </thead>
 
                             <tbody>              
                         
-                                {% for constante in constantes %}  
+                                {% for estancia in estancias %}  
                                 <tr role="row" class="odd">
-                                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{constante.id}}</font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  constante.iss_adicional}}</font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> $ {{  constante.valor_uvt|intcomma}}</font></font></td>
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> $ {{  constante.smdlv|intcomma}}</font></font></td>
+                                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{estancia.id}}</font></font></td>
+                                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{estancia.tipo_estancia}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  estancia.concepto_estancia}}</font></font></td>
+                                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{estancia.valor_concepto}}</font></font></td>
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center>
-                                      <a class= "btn btn-primary btn-circle" href= "{% url 'constante_edit' constante.id%}" ><ion-icon name="create"></ion-icon></a>
-                                      <a class= "btn btn-danger btn-circle" onclick = "return ElimRegistro()" href= "{% url 'constante_elim' constante.id%}" ><ion-icon name="trash"></ion-icon></a></center></font></font> 
+                                      <a class= "btn btn-primary btn-circle" href= "{% url 'estancia_edit' estancia.id%}" ><ion-icon name="create"></ion-icon></a>
+                                      <a class= "btn btn-danger btn-circle" onclick = "return ElimRegistro()" href= "{% url 'estancia_elim' estancia.id%}" ><ion-icon name="trash"></ion-icon></a></center></font></font> 
                                     </td>
                                     
                                 </tr>
