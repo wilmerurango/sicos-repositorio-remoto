@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 # from smart_selects.db_fields import ChainedForeignKey, GroupedForeignKey
 # Create your models here.
 
@@ -12,17 +13,18 @@ class especialista(models.Model):
     id_esp = models.CharField('Identificación', max_length=11)
     name_esp = models.CharField('Nombre del Especialista',max_length=50)
     apellidos_esp = models.CharField('Apellidos del Especialista',max_length=70)
-    tel_esp = models.CharField('Telefono',max_length=12)
-    dir_esp = models.CharField('Dirección', max_length=100)
-    mail_esp= models.EmailField('E-mail',max_length=60)
-    fechafact_esp = models.DateField('Fecha de Registro')
+    especialidad = models.CharField('Especialidad', max_length=50, default = "No se Registro")
+    tel_esp = models.CharField('Telefono',max_length=12, blank =  True)
+    dir_esp = models.CharField('Dirección', max_length=100, blank=True)
+    mail_esp= models.EmailField('E-mail',max_length=60, blank = True)
+    fechafact_esp = models.DateField('Fecha de Registro', default = timezone.now())
     
     def __str__(self):
         return '%s %s' % (self.name_esp, self.apellidos_esp)
     
         
 class contrato(models.Model):
-    nombre = models.CharField('Nombre de la Base', null=True, max_length=70)
+    # nombre = models.CharField('Nombre de la Base', null=True, max_length=70)
     especialista=models.ForeignKey(especialista, null=True,blank=False, verbose_name="Nombre del Especialista" , on_delete=models.CASCADE)
     cargo_esp = models.CharField('Cargo del Especialista',max_length=70, null=True)
     valor = models.FloatField('Monto Devengado al mes', default=0, null=True)
@@ -32,6 +34,7 @@ class contrato(models.Model):
         (si,'SI'),
         (no,'NO'),
     ]
+    info_contrato = models.TextField('Información sobre el contrato', blank = True, null = True)
     razon_social_reglament=models.CharField('Razon Social Reglamentaria',max_length=2,choices=opcion_choices, default=no)
     reten_11=models.CharField('Retención 11%',max_length=2,choices=opcion_choices, default=no)
     reten_art_383=models.CharField('Aplica Retención Art. 383',max_length=2,choices=opcion_choices, default=no)
@@ -67,7 +70,7 @@ class uvt(models.Model):
     valor_uvt=models.FloatField('Valor del UVT', null=True, default=34270)
     smlv = models.FloatField('Valor Salario Minimo', null=True, default=828116)
     restric_smlv = models.FloatField('Restricción SMLV', null=True, default=0)
-    rent_ext_lab = models.FloatField('Renta Extensa Laboral', null=True, default=0)#
+    rent_ext_lab = models.FloatField('Renta Extensa Laboral en %', null=True, default=0)#
     tope_deduc_re=models.FloatField('Tope Renta Extensa en %', null=True, default=0)#
 
     
@@ -136,7 +139,7 @@ class centro_costo(models.Model): ##esta es la clase para almacena los centros d
 class sub_activity(models.Model):#CREAR O REGISTRAR UNA SUB-ACTIVIDAD
     # actividad = models.ForeignKey(actividad, null=True, blank=False, on_delete=models.CASCADE, verbose_name='ID actividad')#de aqui se saca el numero de la cuenta contable de la entidad "actividad"
     # num_cuenta = models.CharField('Numero de Cuenta',max_length=20, null=True, blank=False)#este es el numero de la cuenta de la subactividad
-    name_subactivity = models.CharField('Nombre de Actividad',max_length=70)
+    name_subactivity = models.CharField('Nombre del Grupo de actividades',max_length=70)
     
     def __str__(self):
         return '%s' % (self.name_subactivity)

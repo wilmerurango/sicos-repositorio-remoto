@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'facturacion',
     'cirugia',
     'django.contrib.humanize',
+     'django_extensions',
 ]
 
 MIDDLEWARE = [

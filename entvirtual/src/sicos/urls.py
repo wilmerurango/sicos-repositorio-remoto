@@ -201,7 +201,7 @@ urlpatterns = [
 
 
     #REGISTRO DE ESPECIALISTAS
-    path('crearesp/',login_required(especialistaCrear.as_view()), name='especialista_view'),
+    path('crearesp/',login_required(especialistaCrear), name='especialista_view'),
     path('listesp/',login_required(especialistas_list), name='especialistas_list'),
     path('editaresp/<int:pk>/', login_required(especialistaEdit.as_view()), name='especialista_edit'),
 
@@ -383,8 +383,8 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += [
-        re_path(r'^media/(?P<path>.*)$',serve,{
-        'document_root': settings.MEDIA_ROOT,
+        re_path(r'^media/(?P<path>.*)$',serve,
+        {
+            'document_root': settings.MEDIA_ROOT,
         })
-    
     ]

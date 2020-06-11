@@ -1306,13 +1306,19 @@ class especialistaEdit(UpdateView):
 
 
 #ESTA CLASE ES PARA CREAR A LOS ESPECIALISTAS
-class especialistaCrear(CreateView):
-    model=especialista #llama al modleo que se utilizara  
-    form_class = especialistaform # llama a la formulario que se llenara 
-    template_name = 'especialista_form.html' # llama a la pagina html en la cual se mostraran los datos al usuario
-    success_url = reverse_lazy('especialistas_list') # esto redirige a otra pagina html luego se guardar los campos llenados
+def especialistaCrear(request):
+    if request.method == 'POST' :
+        form = especialistaform(request.POST)
+        if form.is_valid(): 
+            form.save()
+        return redirect('especialista_view')
+    else:
+        form = especialistaform()
+    
+    return render(request, 'especialista_form.html', {'form':form} )
 #[[[[[[[[====FINALIZA ESPECIALISTAS ===[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
 #******************************************************************************************************************************************************************************
+
 
 #ESTA CLASE ES PARA LOS TERMINOS DEL CONTRATO
 def contrato_list(request):
