@@ -1,6 +1,7 @@
 from django import forms
 from django.forms.widgets import SelectDateWidget
 import datetime
+import copy
 from django.forms import ModelChoiceField
 
 from facturacion.models import *
@@ -146,7 +147,7 @@ class cpp_proveedor_detalleform(forms.ModelForm):
                 print('Error') # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
             self.fields['producto'].queryset = self.instance.categoria.producto_set.order_by('nombre')     
-      
+              
 class cuenta_auxform(forms.ModelForm):
     class Meta:
         model = cuenta_aux
@@ -634,7 +635,6 @@ class fac_especialista_detalleform(forms.ModelForm):
             
         self.fields['centro_actividad'].queryset = centro_actividad.objects.none()
        
-
         if 'centro_costo' in self.data:
             try:
                 centro_costo_id = int(self.data.get('centro_costo'))

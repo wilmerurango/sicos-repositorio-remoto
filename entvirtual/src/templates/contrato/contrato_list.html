@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize%}
 
 
 
@@ -31,9 +32,11 @@
                             <thead>
                               <tr role="row">
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
-                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_de_la_Base</font></font></th>
+                                <!-- <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_de_la_Base</font></font></th> -->
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_del_Especialista</font></font></th>
-                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cargo</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Especialidad</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Monto_Fijo</font></font></th>
+                                <!-- <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Información_del_Contrato</font></font></th> -->
                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Razon_Social_Reglamentaria</font></font></th>
                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 52px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Retención_11%</font></font></th>
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Aplica_Retención_Art._383</font></font></th>
@@ -59,9 +62,11 @@
                                 {% for contrato in contratos %}  
                                 <tr role="row" class="odd">
                                     <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{contrato.id}}</font></font></td>
-                                    <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{contrato.nombre}}</font></font></td>                                   
-                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  contrato.especialista.name_esp}}</font></font></td>
+                                    <!-- <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{contrato.nombre}}</font></font></td>                                    -->
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  contrato.especialista.name_esp}} {{  contrato.especialista.apellidos_esp}}</font></font></td>
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  contrato.cargo_esp}}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">$ {{  contrato.valor|intcomma}}</font></font></td>
+                                    <!-- <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  contrato.info_contrato}}</font></font></td> -->
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  contrato.razon_social_reglament}}</font></font></td>
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ contrato.reten_11 }}</font></font></td>
                                     <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{contrato.reten_art_383}}</font></font></td>

@@ -12,7 +12,7 @@
 <p></p>
 
 
-      <form method="post" id="cpp_proveedor_detalleform" data-productos-url="{% url 'load_producto' %}"> 
+      <form method="post" id="cpp_proveedor_detalleform" data-productos-url="{% url 'load_producto' %}"  >
             {% csrf_token %}
             <input  type="number"  class="d-none d-sm-none" value={{cat_cpps}} id="camp2" disabled> 
             <input  type="number"  class="d-none  d-sm-none" value={{cat_prins}} id="camp11" disabled>
@@ -121,6 +121,7 @@
       }
     });
   });
+
 </script>
 
 <p></p>

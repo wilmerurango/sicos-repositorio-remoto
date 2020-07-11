@@ -44,14 +44,9 @@ class defprov():
         cont_cc = self.obj1.count()#cuenta cuantos objetos tiene el objeto centro_costos
         contar_detalle = self.obj3.count()#cuenta cuentos elementos tiene el objeto cpp_proveedor_detalle
         
-        print('fijo dentro',self.obj5.first().id)
-        # print('variable dentro',self.obj2.last().producto.categoria.id)
-        
-        print('primer elemto', self.obj5.first().id )
-        print('segundo elemto', self.obj2.last().producto.categoria.id )
         
         if self.obj5.first().id == self.obj2.last().producto.categoria.id:#esta es la categoria de gases y debe colocarse de primero.
-            print('entro en gas')
+
             mat_distri = np.zeros([cont_cc,contar_detalle+1])
             matriz = np.zeros([cont_cc,contar_detalle+1])
             matriz_detalle = np.zeros([cont_cc,contar_detalle+1])#esat matriz no se utiliza en los gases solo se da uso en la sangre, ero hay que colocarlo para que no tire un error al retornar los elemtos
@@ -78,13 +73,11 @@ class defprov():
                 matriz_iva[contm, contar_detalle] = sum(matriz_iva[contm,0:contar_detalle+1])
                 
                 contm += 1
-            print('gases:', matriz)   
-            print('iva gas', matriz_iva) 
-            print('distrigas', mat_distri)
+
             return (matriz, matriz_iva, mat_distri, matriz_detalle)
         
         else:#aqui se recibe el resto de las categorias
-            print('entro en sangre')
+
             mat_distri = np.zeros([cont_cc,1])
             matriz = np.zeros([cont_cc,1])
             matriz_iva = np.zeros([cont_cc,2])
@@ -124,7 +117,4 @@ class defprov():
             for m in range(cont_cc):
                 mat_distri[m,0]= round((matriz[m,0]/np.sum(matriz))*100,2)
             
-                        
-            print('matriz sangre: ',matriz)
-            print('matriz sangre iva: ',matriz_iva)
             return (matriz, matriz_iva, mat_distri, matriz_detalle)

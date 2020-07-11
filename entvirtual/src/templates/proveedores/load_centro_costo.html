@@ -1,0 +1,4 @@
+<option value="" >------</option>
+{% for centro_costo in centro_costos %}
+<option value="{{ centro_costo.pk }}">{{ centro_costo.name_ccos }}</option>
+{% endfor %}

@@ -12,7 +12,7 @@ from django.utils import timezone
 class especialista(models.Model):
     id_esp = models.CharField('Identificación', max_length=11)
     name_esp = models.CharField('Nombre del Especialista',max_length=50)
-    apellidos_esp = models.CharField('Apellidos del Especialista',max_length=70)
+    apellidos_esp = models.CharField('Apellidos del Especialista',max_length=70, blank=True)
     especialidad = models.CharField('Especialidad', max_length=50, default = "No se Registro")
     tel_esp = models.CharField('Telefono',max_length=12, blank =  True)
     dir_esp = models.CharField('Dirección', max_length=100, blank=True)
@@ -26,8 +26,8 @@ class especialista(models.Model):
 class contrato(models.Model):
     # nombre = models.CharField('Nombre de la Base', null=True, max_length=70)
     especialista=models.ForeignKey(especialista, null=True,blank=False, verbose_name="Nombre del Especialista" , on_delete=models.CASCADE)
-    cargo_esp = models.CharField('Cargo del Especialista',max_length=70, null=True)
-    valor = models.FloatField('Monto Devengado al mes', default=0, null=True)
+    cargo_esp = models.CharField('Especialidad',max_length=70, blank=True)
+    valor = models.FloatField('Monto Devengado al mes', default=0)
     si='SI'
     no = 'NO'
     opcion_choices=[
@@ -42,7 +42,7 @@ class contrato(models.Model):
     reten_10=models.CharField('Retención del 10%',max_length=2,choices=opcion_choices, default=no)
     pension_obligado=models.CharField('Obligado a Cotizar Pension ',max_length=2,choices=opcion_choices, default=no)
     reten_arrindo=models.CharField('Retención por Arriendo',max_length=2,choices=opcion_choices, default=no)
-    fecha = models.DateField('Fecha', null =True)
+    fecha = models.DateField('Fecha',default = timezone.now())
     
     def __str__(self):
         return '%s %s' % (self.especialista.name_esp, self.especialista.apellidos_esp)
@@ -102,6 +102,33 @@ class especialista_cpp_aux(models.Model):
 
 
 class fac_especialista(models.Model):
+    enero ='Enero'
+    febrero='Febrero'
+    marzo='Marzo'
+    abril='Abril'
+    mayo='Mayo'
+    junio='Junio'
+    julio='Julio'
+    agosto='Agosto'
+    septiembre='Septiembre'
+    octubre='Octubre'
+    noviembre='Noviembre'
+    diciembre='Diciembre'
+    
+    opcion_choices=[
+    (enero,'Enero'),
+    (febrero,'Febrero'),
+    (marzo,'Marzo'),
+    (abril,'Abril'),
+    (mayo,'Mayo'),
+    (junio,'Junio'),
+    (julio,'Julio'),
+    (agosto,'Agosto'),
+    (septiembre,'Septiembre'),
+    (octubre,'Octubre'),
+    (noviembre,'Noviembre'),
+    (diciembre,'Diciembre'),
+    ]
     tarifa = models.ForeignKey(Tarifa, on_delete = models.CASCADE, verbose_name = "Nombre Tarifa", null  = True)
     # uvt = models.ForeignKey(uvt, null=True, on_delete=models.CASCADE, verbose_name='Nombre Tarifa')
     especialista = models.ForeignKey(especialista, null=True, blank=False, on_delete=models.CASCADE, verbose_name='Identificación')#de aqui se saca el id_esp
@@ -118,8 +145,8 @@ class fac_especialista(models.Model):
     indem_lab = models.FloatField('Indemnizaciones Laborales', null=True, default=0)#
     rent_exten_lab = models.FloatField('Renta Extensa Laboral', null=True, default=25)#
     top_deduc_rent_exte = models.FloatField('Tope Deducciones + Renta Extensa ', null=True, default=40)#
-
-    fechafac_esp = models.DateField('Fecha')
+    fecha_pagada = models.CharField('Mes Pagado',max_length=15,choices=opcion_choices, default = enero)
+    fechafac_esp = models.DateField('Fecha de Registro', default = timezone.now())
 
     def __str__(self):
         return '%s' % (self.id)
@@ -139,7 +166,7 @@ class centro_costo(models.Model): ##esta es la clase para almacena los centros d
 class sub_activity(models.Model):#CREAR O REGISTRAR UNA SUB-ACTIVIDAD
     # actividad = models.ForeignKey(actividad, null=True, blank=False, on_delete=models.CASCADE, verbose_name='ID actividad')#de aqui se saca el numero de la cuenta contable de la entidad "actividad"
     # num_cuenta = models.CharField('Numero de Cuenta',max_length=20, null=True, blank=False)#este es el numero de la cuenta de la subactividad
-    name_subactivity = models.CharField('Nombre del Grupo de actividades',max_length=70)
+    name_subactivity = models.CharField('Nombre de la Categoria',max_length=70)
     
     def __str__(self):
         return '%s' % (self.name_subactivity)
@@ -166,6 +193,7 @@ class actividad(models.Model):
 class centro_actividad(models.Model):
     centro_costo = models.ForeignKey(centro_costo, null=True, blank=False, on_delete=models.CASCADE, verbose_name='Centro de Costo')
     actividad = models.ForeignKey(actividad, null=True, blank=False, on_delete=models.CASCADE, verbose_name='Actividad')
+    nombre_centro_act = models.CharField('Nombre Cuenta', max_length=70)
     cuenta = models.BigIntegerField('N° Cuenta', null = True)
     
     def __str__(self):
@@ -337,8 +365,8 @@ class cpp_servicio_medico_detalle(models.Model):#REALIZAR EL DETALLE DE LA FACTU
 class proveedor(models.Model):
     nit_prov= models.CharField('NIT',max_length=11, null=True)
     name_prov = models.CharField('Nombre del Proveedor',max_length=100)
-    cuenta_reten = models.CharField('Cuenta de Retención', blank= True, null = True, max_length=20)
-    reten = models.FloatField('Retención en %', blank = False,  null=True, default=0)
+    # cuenta_reten = models.CharField('Cuenta de Retención', blank= True, null = True, max_length=20)
+    # reten = models.FloatField('Retención en %', blank = False,  null=True, default=0)
     si='SI'
     no = 'NO'
     opcion_choices=[
@@ -346,9 +374,9 @@ class proveedor(models.Model):
         (no,'NO'),
     ]
     distri_fija= models.CharField('¿Distribución Porcentual?',max_length=2,choices=opcion_choices, default=no)#se le asigna una distristribucion porcentual fija o se calcula dependinedo el pedido de los productos.
-    dir_prov = models.CharField('Dirección',max_length=100)
-    tel_prov = models.CharField('Telefono',max_length=12)
-    mail_prov= models.EmailField('E-mail',max_length=60)
+    dir_prov = models.CharField('Dirección',max_length=100, blank = True)
+    tel_prov = models.CharField('Telefono',max_length=12, blank = True)
+    mail_prov= models.EmailField('E-mail',max_length=60, blank = True)
     fecharegistro_prov = models.DateField('Fecha')
 
     def __str__(self):

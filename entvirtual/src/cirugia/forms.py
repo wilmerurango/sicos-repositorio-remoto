@@ -129,6 +129,17 @@ class honorarioform(forms.ModelForm):
             self.fields[field].widget.attrs.update({  
                 'class': 'form-control'  
             })
+            
+        self.fields['procedimiento'].queryset = procedimiento.objects.none()
+        
+        if 'tipo_proc' in self.data:
+            try:
+                tipo_proc_id = int(self.data.get('tipo_proc'))
+                self.fields['procedimiento'].queryset = procedimiento.objects.filter(tipo_proc_id=tipo_proc_id).order_by('nombre_proc')
+            except (ValueError, TypeError):
+                print('Error') # invalid input from the client; ignore and fallback to empty City queryset
+        elif self.instance.pk:
+            self.fields['procedimiento'].queryset = self.instance.tipo_proc.procedimiento_set.order_by('nombre_proc')
 
 class constanteform(forms.ModelForm):
     class Meta:

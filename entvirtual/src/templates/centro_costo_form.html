@@ -2,14 +2,16 @@
 
 
 {% block title %}
-  Registrar Centro de Costo
+  Crear de Costos
 {% endblock title %}
 
 
 {% block content %}
+ 
 
-  <div class="card card-register mt-5">
-    <!-- <div class="card-header">Registrar Centro de Costo</div> -->
+ 
+ <div class="card card-register mt-1">
+    <div class="card-header">Registrar Centro de Costo</div>
     <div class="card-body">
       <form method="post">
         {% csrf_token %}
@@ -39,8 +41,7 @@
   </div>
 
 
-{% endblock content %}
-
-
+  {% endblock content %}
+ 
 
 

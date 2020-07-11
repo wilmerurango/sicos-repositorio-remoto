@@ -8,7 +8,7 @@
 
 {% block content %}
 
-  <a class= "btn btn-success" href= "{% url 'centro_actividad_view' %}" >Crear Centro Actividad</a>
+  <a class= "btn btn-success" href= "{% url 'centro_actividad_view' %}" >Crear Centro Actividad  <ion-icon name="add"></ion-icon></a>
 
     <div class="card mb-3">
             <div class="card-header">
@@ -25,6 +25,7 @@
                               <tr role="row">
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Código</font></font></th>
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Centro_de_Costos</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Grupro_Actividad</font></font></th>
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Actividad</font></font></th>
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">N°_Cuenta</font></font></th>
                                 <th class="sorting color-wilmer" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></th>
@@ -38,6 +39,7 @@
                 
                                     <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{centro_actividad.id }}</font></font></td>
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   centro_actividad.centro_costo.name_ccos  }}</font></font></td>
+                                    <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   centro_actividad.nombre_centro_act }}</font></font></td>
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   centro_actividad.actividad.name_act  }}</font></font></td>
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   centro_actividad.cuenta  }}</font></font></td>
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center> <a class= "btn btn-primary btn-circle" href= "{% url 'centro_actividad_edit' centro_actividad.id %}" ><ion-icon name="create"></ion-icon></a></center></font></font></td>

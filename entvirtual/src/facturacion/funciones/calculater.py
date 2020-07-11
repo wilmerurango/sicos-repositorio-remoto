@@ -130,38 +130,64 @@ class factura_pdf():
                     
                 resul[contador_mt,0]=sum(resulxcuenta_mf)
 
-            else:#este es Evento
-
-                #calcular numero de cuentas repetidas 
-                unicoe = []
-                for i in mf:
-                    if i.centro_actividad.cuenta not in unicoe:
-                        unicoe.append(i.centro_actividad.cuenta)
-                num_unico = len(unicoe) 
+            else:
                 
-                resulxcuenta_ev = np.zeros((num_unico,1))
+                if contador_mt == 1:#este es Evento
                 
-                for j in range(num_unico):#recorrer las cuentas no repetidas
-                    suma_pro_2 = 0
-                    for k in mf:#recorrer el objeto de fac_especialista_detalle 
-                        if k.parametrizado == False:
-                            if unicoe[j] == k.centro_actividad.cuenta:
-                                suma_pro_2 += k.valor 
-                        else:
-                            if unicoe[j] == k.centro_actividad.cuenta:
-                                suma_pro_2 += (k.valor * k.centro_actividad.actividad.valor_iss*(1+(k.centro_actividad.actividad.pct_iss/100)))
-
-                    resulxcuenta_ev[j,0] = suma_pro_2
+                    #calcular numero de cuentas repetidas 
+                    unicoe = []
+                    for i in mf:
+                        if i.centro_actividad.cuenta not in unicoe:
+                            unicoe.append(i.centro_actividad.cuenta)
+                    num_unico = len(unicoe) 
                     
-                resul[contador_mt,0]=sum(resulxcuenta_ev)
+                    resulxcuenta_ev = np.zeros((num_unico,1))
+                    
+                    for j in range(num_unico):#recorrer las cuentas no repetidas
+                        suma_pro_2 = 0
+                        for k in mf:#recorrer el objeto de fac_especialista_detalle 
+                            if k.parametrizado == False:
+                                if unicoe[j] == k.centro_actividad.cuenta:
+                                    suma_pro_2 += k.valor 
+                            else:
+                                if unicoe[j] == k.centro_actividad.cuenta:
+                                    suma_pro_2 += (k.valor * k.centro_actividad.actividad.valor_iss*(1+(k.centro_actividad.actividad.pct_iss/100)))
+
+                        resulxcuenta_ev[j,0] = suma_pro_2
+                        
+                    resul[contador_mt,0]=sum(resulxcuenta_ev)
+                    
+                else:#este es Evento-arriendo
+                    #calcular numero de cuentas repetidas 
+                    unicoea = []
+                    for i in mf:
+                        if i.centro_actividad.cuenta not in unicoea:
+                            unicoea.append(i.centro_actividad.cuenta)
+                    num_unico = len(unicoea)
+                    
+                    resulxcuenta_eva = np.zeros((num_unico,1))
+                    
+                    for j in range(num_unico):#recorrer las cuentas no repetidas
+                        suma_pro_3 = 0
+                        for k in mf:#recorrer el objeto de fac_especialista_detalle 
+                            if k.parametrizado == False:
+                                if unicoea[j] == k.centro_actividad.cuenta:
+                                    suma_pro_3 += k.valor 
+                            else:
+                                if unicoea[j] == k.centro_actividad.cuenta:
+                                    suma_pro_3 += (k.valor * k.centro_actividad.actividad.valor_iss*(1+(k.centro_actividad.actividad.pct_iss/100)))
+
+                        resulxcuenta_eva[j,0] = suma_pro_3
+                        
+                    resul[contador_mt,0]=sum(resulxcuenta_eva)
 
             contador_mt +=1
         
         total_fact = sum(resul) + self.obj4.valor
         productividad = int(sum(resul))
-        
-        
-        return (resul, total_fact, productividad,  resulxcuenta_ev,resulxcuenta_mf,unicoe,unico)
+        print("este es unicoe",unicoe)
+        print("este es unico",unico)
+        return (resul, total_fact, productividad,  resulxcuenta_ev,resulxcuenta_mf,unicoe,unico, resulxcuenta_eva, unicoea)
           
     #ESTA FUNCION ES PARA CALCULAR LA BASE GRABABLE DE LOS ESPECIALISTAS       
     def retencion_esp(self):

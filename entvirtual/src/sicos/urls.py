@@ -340,6 +340,7 @@ urlpatterns = [
     path('editcppprovdetal2/<int:id_>/', login_required(cpp_prov_detalEdit), name='cpp_prov_detal_edit'),
 
     path('listcppprovsubdetal/<int:id_>/', login_required(cpp_proveedor_subdetalle_list), name='cpp_proveedor_subdetalle_list'),
+    # path('load-producto/', login_required(load_cpp_prov_detalle), name='load_centro_costo'),
 
     #cuentas auxioliares
     path('listcuentaux/',login_required(cuenta_aux_list), name='cuenta_aux_list'),

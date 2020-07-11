@@ -9,7 +9,7 @@
 
 {% block content %}
 
-  <a class= "btn btn-success" href= "{% url 'inductor_arri_view' %}" >Crear Inductor de Arriendo</a>
+  <a class= "btn btn-success" href= "{% url 'inductor_arri_view' %}" >Crear Inductor de Arriendo  <ion-icon name="add"></ion-icon></a>
 
     <div class="card mb-3">
             <div class="card-header">
@@ -34,7 +34,7 @@
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cuenta_C._Costo</font></font></th>
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_C._de_Costo</font></font></th>
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nombre_del_Ente</font></font></th>
-                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Inductor</font></font></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Distribución(%)</font></font></th>
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cuenta_Especifica</font></font></th>
                                 <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 71px;" aria-sort="ascending"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fecha_de_Actualizacion</font></font></th>
                                 <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 54px;"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Acción</font></font></th>
@@ -59,7 +59,7 @@
                                     <td class="sorting_1"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{inductor_arri.centro_costo.id_centro_costo}}</font></font></td>
                                     <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  inductor_arri.centro_costo.name_ccos}}</font></font></td>
                                     <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  inductor_arri.arriendo.name_arri}}</font></font></td>
-                                    <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  inductor_arri.induc}}</font></font></td>
+                                    <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><center>{{  inductor_arri.induc}} %</center> </font></font></td>
                                     <td class=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{  inductor_arri.cuenta_especific}}</font></font></td>
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{   inductor_arri.fecha_induc|date:"SHORT_DATE_FORMAT"}}</font></font></td>
                                     <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> <center><a class= "btn btn-primary btn-circle" href= "{% url 'inductor_arri_edit' inductor_arri.id %}" ><ion-icon name="create"></ion-icon></a></center></font></font></td>

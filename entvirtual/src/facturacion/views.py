@@ -19,6 +19,7 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus.tables import Table
 from reportlab.platypus import SimpleDocTemplate
 import time
+import copy
 import numpy as np
 from django.urls import path
 
@@ -272,24 +273,25 @@ def Reporte_CppEspecialista_Pdf(request, id_):
     response = HttpResponse(content_type='application/pdf')
     buffer=io.BytesIO()
     archivo_imagen = settings.STATICFILES_URL + '/img/clinicario_log.jpeg'
-    archivo_imagen_logo = settings.STATICFILES_URL + '/img/logocosto.png'
+    archivo_imagen_logo = settings.STATICFILES_URL + '/img/sicos_logo_trans.jpg'
     p=canvas.Canvas(buffer, pagesize=A4)
     
     p.setFont('Helvetica', 7) 
     
     #ENCABEZADO ==============================================================================
     y1=750# ESTE ES EL PUNTO DE REFRENCIA DEL ENCABEZADO Y DE TODO EL DOUMENTO
-    p.drawImage(archivo_imagen,40,y1-8, 95,65, preserveAspectRatio=True)
-    p.drawImage(archivo_imagen_logo,25,20, 75,45, preserveAspectRatio=True)
+    p.drawImage(archivo_imagen,37,y1-8, 95,65, preserveAspectRatio=True)
+    p.drawImage(archivo_imagen_logo,485,16, 80,50, preserveAspectRatio=True)
     p.drawString(210, y1+45, "FUNDACIÓN CLÍNICA DEL RÍO")
     p.drawString(240, y1+35, "NIT. 900 540 156-1")
     p.drawString(160, y1+20, "DISTRIBUCIÓN DE COSTOS Y GASTOS POR PAGAR POR ")
     p.drawString(160, y1+10, "SERVICIOS MÉDICOS POR EVENTO PERSONA NATURAL ")
     
-    p.drawString(460, y1+45, "Código:"), p.drawString(505, y1+45, "xxxx")
-    p.drawString(460, y1+35, "Version:"), p.drawString(505, y1+35, "xxxx")
-    p.drawString(460, y1+25, "Emision:"), p.drawString(505, y1+25, "xxxx")
-    p.drawString(460, y1+15, "Fecha:"), p.drawString(505, y1+15, time.strftime("%d/%m/%y"))
+    p.drawString(460, y1+45, "Código:"), p.drawString(490, y1+45, "COS-FO-01")
+    p.drawString(460, y1+35, "Version:"), p.drawString(490, y1+35, "01")
+    p.drawString(460, y1+25, "Emision:"), p.drawString(490, y1+25, "07-07/2020")
+    p.drawString(460, y1+15, "Página:"), p.drawString(490, y1+15, "1 de 1")
+    
     #FIN ENCABEZADO ==============================================================================
 
     #datos
@@ -307,7 +309,7 @@ def Reporte_CppEspecialista_Pdf(request, id_):
     # reten_provi = cuenta_reten.objects.get(contrato=ddd.id)
     
     suma_parcial=factura_pdf(aaa, bbb, ccc, ddd)
-    (resul,total_sum,product, vec_ev, vec_mf, unicoe, unico)=suma_parcial.opera_especialistas()
+    (resul,total_sum,product, vec_ev, vec_mf, unicoe, unico, vec_eva, unicoea)=suma_parcial.opera_especialistas()
     
     cont_ev = len(vec_ev)
     cont_mf = len(vec_mf)
@@ -315,6 +317,8 @@ def Reporte_CppEspecialista_Pdf(request, id_):
     
 
     #CUERPO DEL PDF
+    p.drawString(250, y+27, "Fecha Digitación:"), p.drawString(310, y+27, time.strftime("%d/%m/%y"))
+    
     p.line(40,y+25, 550,y+25)
     p.drawString(40, y+17, "N° Factura: "), p.drawString(95, y+17, str(id_))
     p.drawString(40, y+10, "Especialista:"), p.drawString(95, y+10, obj2.especialista.name_esp + ' ' + obj2.especialista.apellidos_esp)
@@ -322,7 +326,7 @@ def Reporte_CppEspecialista_Pdf(request, id_):
 
     p.drawString(310, y+17, "Total Facturado: "), p.drawString(460,y+17, "$ " + str('{:,}'.format(round(float(sum(resul)-sum(vec_mf)+obj1.valor)))))
     p.drawString(310, y+10, "Glosa del mes: "), p.drawString(460, y+10,  "$ " + str('{:,}'.format(obj2.glosa)))
-    p.drawString(310, y+3, "Base Liquidación Salud o Pensión: "), p.drawString(460, y+3,  "$ " + str('{:,}'.format(round(float(sum(resul)-sum(vec_mf)+obj1.valor-obj2.glosa)))))
+    p.drawString(310, y+3, "Base Liquidación Salud o Pensión: "), p.drawString(460, y+3,  "$ " + str('{:,}'.format(round(float(sum(resul)-sum(vec_mf)+obj1.valor-obj2.glosa-sum(vec_eva))))))
     p.line(40,y, 550,y)
     
     p.setFont('Helvetica-Bold', 7)
@@ -352,9 +356,9 @@ def Reporte_CppEspecialista_Pdf(request, id_):
     contw = 0
     for t in obj4:
         if t.id == obj4.first().id:
-            p.drawString(205,y-32-(contw*8), "Mayor de " + str(int(t.minimo))+" UVT"), p.drawString(305,y-32-(contw*8), "Hasta"+str(int(t.maximo)) + " UVT"), p.drawString(380,y-32-(contw*8), str(int(t.porcent))+"%" )
+            p.drawString(205,y-32-(contw*8), "Mayor de " + str(int(t.minimo))+" UVT "), p.drawString(305,y-32-(contw*8), "Hasta "+str(int(t.maximo)) + " UVT "), p.drawString(380,y-32-(contw*8), str(int(t.porcent))+"%" )
         else:
-            p.drawString(205,y-32-(contw*8), "Mayor de " + str(int(t.minimo))+" UVT"), p.drawString(305,y-32-(contw*8), "Hasta"+str(int(t.maximo)) + " UVT"), p.drawString(380,y-32-(contw*8), "(Ingreso Gravado en UVT - " + str(int(t.resta))+ ") * "+ str(round(float(t.porcent)))+"% + " + str(int(t.adicion)))
+            p.drawString(205,y-32-(contw*8), "Mayor de " + str(int(t.minimo))+" UVT "), p.drawString(305,y-32-(contw*8), "Hasta "+str(int(t.maximo)) + " UVT "), p.drawString(380,y-32-(contw*8), "(Ingreso Gravado en UVT - " + str(int(t.resta))+ ") * "+ str(round(float(t.porcent)))+"% + " + str(int(t.adicion)))
         contw += 1
     
     #********************************************
@@ -502,10 +506,11 @@ def Reporte_CppEspecialista_Pdf(request, id_):
     p.drawString(305,y-140, "Cuenta"), p.drawString(365,y-140, "Nombre Cuenta"), p.drawString(470,y-140, "%"), p.drawString(500,y-140, "Valor")
     p.line(305,y-142, 328,y-142), p.line(365,y-142, 415,y-142), p.line(470,y-142, 484,y-142),  p.line(500,y-142, 550,y-142)
     
+    
+    #colocar cuentas y valores de tipo monto fijo
     cont_unico =len(unico)
     base_alt = 152 
     contador = 0  
-
     for i in range(cont_unico):
         
         p.drawString(305,y-base_alt-i*10,str(unico[i])), p.drawString(470,y-base_alt-i*10, str(round(float((vec_mf[i]/sum(vec_mf))*100),1)) + " %" ), p.drawString(500,y-base_alt-i*10, "$ " + str('{:,}'.format(round(float((vec_mf[i]/sum(vec_mf))*obj1.valor)))))
@@ -513,7 +518,7 @@ def Reporte_CppEspecialista_Pdf(request, id_):
         contt = 0
         for j in ccc:
             if unico[i]==j.cuenta and contt==0:
-                p.drawString(365,y-base_alt-i*10,j.actividad.sub_activity.name_subactivity)
+                p.drawString(365,y-base_alt-i*10,j.nombre_centro_act)
                 contt += 1
                 
         contador += 1  
@@ -522,6 +527,8 @@ def Reporte_CppEspecialista_Pdf(request, id_):
             p.line(500,y-base_alt-i*10-2, 550, y-base_alt-i*10-2)
             p.drawString(441,y-base_alt-i*10-10, "Total Monto Fijo: "), p.drawString(500,y-base_alt-i*10-10, "$ "+ str('{:,}'.format(round(obj1.valor))))
     
+    
+    #colocar cuenytas y valores de tipo evento
     cont_unicoe = len(unicoe)
     contadorr=0
     for j in range(cont_unicoe):
@@ -530,13 +537,33 @@ def Reporte_CppEspecialista_Pdf(request, id_):
         contt = 0
         for k in ccc:
             if unicoe[j]==k.cuenta and contt==0:
-                p.drawString(365,y-base_alt-j*10-((contador + 1.5)*10), k.actividad.sub_activity.name_subactivity)
+                p.drawString(365,y-base_alt-j*10-((contador + 1.5)*10), k.nombre_centro_act)
                 contt += 1
                 
         if j == cont_unicoe-1:
             p.line(500,y-base_alt-j*10-((contador+ 1.5)*10) -2, 550, y-base_alt-j*10-((contador + 1.5)*10 )-2)
             p.drawString(450,y-base_alt-j*10-((contador + 1.5)*10) - 10, "Total Evento: ")
             p.drawString(500,y-base_alt-j*10-((contador + 1.5)*10) - 10, "$ "+ str('{:,}'.format(round(float(sum(vec_ev))))))
+
+        contadorr += 1
+        
+        
+    #colocar cuentas y valores de tipo evento-arriendo
+    cont_unicoea = len(unicoea)
+    contadorr += 1
+    for j in range(cont_unicoea):
+        p.drawString(305,y-base_alt-j*10-((contadorr + 1.5)*10),str(unicoea[j])), p.drawString(500,y-base_alt-j*10-((contadorr + 1.5)*10),"$ " + str('{:,}'.format(round(float(vec_eva[j])))))
+        
+        contt = 0
+        for k in ccc:
+            if unicoea[j]==k.cuenta and contt==0:
+                p.drawString(365,y-base_alt-j*10-((contadorr + 1.5)*10), k.nombre_centro_act)
+                contt += 1
+                
+        if j == cont_unicoea-1:
+            p.line(500,y-base_alt-j*10-((contadorr+ 1.5)*10) -2, 550, y-base_alt-j*10-((contadorr + 1.5)*10 )-2)
+            p.drawString(450,y-base_alt-j*10-((contadorr + 1.5)*10) - 10, "Total Arriendo: ")
+            p.drawString(500,y-base_alt-j*10-((contadorr + 1.5)*10) - 10, "$ "+ str('{:,}'.format(round(float(sum(vec_eva))))))
 
         contadorr += 1
         
@@ -571,14 +598,14 @@ def Reporte_CppEspecialista_Pdf(request, id_):
         p.drawString(305,y-base_alt-(contadorr-1)*10-((contador + 4 + contt + ccont)*10),"23651503")
         p.drawString(365,y-base_alt-(contadorr-1)*10-((contador + 4 + contt + ccont)*10),"Retención Art. 383")
         p.drawString(500,y-base_alt-(contadorr-1)*10-((contador + 4 + contt + ccont)*10), "$ " + str('{:,}'.format(re_valor_reten_cal)) )
-        ccont += 1 
+        ccont += 1
         acum += re_valor_reten_cal
         
     if ddd.reten_arrindo == 'SI':# calcular y ubicar la retencion por concepto de ARRIENDO
         reten_provi = cuenta_reten.objects.get(contrato=ddd.id)
         # NOTA: arrindo es arriendo, es que me equivoque al escribirlo y lo deje asi
         ultimo_tipo_fac = bbb.last()
-        print('ultimo: ', ultimo_tipo_fac)
+
         p.drawString(305,y-base_alt-(contadorr-1)*10-((contador + 4 + contt + ccont)*10), str(reten_provi.num_cuenta))
         p.drawString(365,y-base_alt-(contadorr-1)*10-((contador + 4 + contt + ccont)*10),reten_provi.name_cuenta)
         if aaa.count() != 0:
@@ -663,7 +690,8 @@ def Reporte_Proveedor_Pdf(request, id_):
     cpp_prov_calcular = defprov(cc,distri,cpp_prov_detal,cpp_prov,categ)
     
     (resultado, iva_matriz, distrib_mat, mat_detalle) = cpp_prov_calcular.calcular_cpp_proveedor()
-    print('esta es la matriz que esta jodiendo ',iva_matriz)
+
+
     
     p.setFont('Helvetica', 8)
     
@@ -695,12 +723,14 @@ def Reporte_Proveedor_Pdf(request, id_):
             p.drawString( 40, y-23, "Centro de Costo" )
             p.line(40,y-24, 115,y-24)
             
+            p.setFont('Helvetica', 6)
             varx = 0
             for i in cpp_prov_detal:
                 p.drawString((varx*divis)+200, y-23, i.producto.nombre)
                 p.line((varx*divis)+200,y-24, (varx*divis)+200 +divis-20,y-24)
                 varx += 1
             
+            p.setFont('Helvetica', 8)
             #escribir los nombres de los centros de costos
             vary = 0
             for j in cc:
@@ -943,7 +973,7 @@ def Reporte_Proveedor_Pdf(request, id_):
                 varx = 0
                 for k in range(cont_cpp_prov_detal+1):
                     if mat_detalle[vary,varx] != 0:
-                        p.drawString( (varx*divis) + 200, var_filas-20-(vary*8),'$ '+ str('{:,}'.format(mat_detalle[vary,varx])))
+                        p.drawString( (varx*divis) + 200, var_filas-20-(vary*8),'$ '+ str('{:,}'.format(round(mat_detalle[vary,varx]))))
                     else:
                         p.drawString( (varx*divis) + 200, var_filas-20-(vary*8),'-')
                        
@@ -1444,13 +1474,13 @@ def fac_especialista_detallecrear(request, id_):
     ddd = contrato.objects.get(especialista = tempo.especialista.id)
     
     espe_cpp = factura_pdf(filtro1,tipos_facturacion, ccc, ddd )
-    (resul, total_sum,a,b,c,d,e)= espe_cpp.opera_especialistas()
+    (resul, total_sum,a,b,c,d,e,f,g)= espe_cpp.opera_especialistas()
     
 
     if request.method == 'POST' :
         form = fac_especialista_detalleform(request.POST)
         if form.is_valid(): 
-            # print('esta es la form:', form)
+
             form.save()
         return redirect('/crearfacdetal/'+str(id_)+'/')
     else:
@@ -1472,7 +1502,6 @@ def fac_especialista_detallecrear(request, id_):
             k.save()
 
     
-    # print('este es el resultado', resul)      
     subtotal = float(sum(resul)-sum(c)+ddd.valor   )
     return render(request, 'fac_especialista_detalleform.html',{'form':form,'fac_especialista_detalles':fac_especialista_detalle1,'subtotals':subtotal, 'tempos':tempo})
 
@@ -1481,7 +1510,6 @@ def fac_especialista_detallecrear(request, id_):
 def load_actividad(request):
     centro_costo = request.GET.get('centro_costo')
     centro_actividades = centro_actividad.objects.filter(centro_costo=centro_costo).order_by('actividad')
-    print('centro_costo: ',centro_actividades)
     return render(request,'lista_Activiades.html',{'centro_actividades':centro_actividades})
 
 
@@ -1519,11 +1547,8 @@ def fac_especialista_list(request):
 
     sum_general=fac_especialista.objects.all()
     cont_sum_general = fac_especialista.objects.count()
-    
     conttt = 1
     for i in sum_general:
-        
-        
         #esto es para calcular el honorario del mes actual
         aaa = fac_especialista_detalle.objects.filter(fac_especialista=i.id)
         bbb = tipo_fact.objects.all()
@@ -1531,8 +1556,8 @@ def fac_especialista_list(request):
         contr = contrato.objects.get(especialista = i.especialista)
         ddd = contrato.objects.get(especialista = i.especialista)
         suma_parcial=factura_pdf(aaa, bbb, ccc, ddd)
-        (resul,total_sum, a, vec_ev, c, d,e)=suma_parcial.opera_especialistas()
-        i.valor = sum(resul) - sum(c) + contr.valor
+        (resul,total_sum, a, vec_ev, c, d,e, f, g)=suma_parcial.opera_especialistas()
+        i.valor = sum(resul) - sum(c) + contr.valor-sum(f)
         i.save()
         
         #esto es para calcular el moto acumulado del especialista hasta la ultima factura
@@ -1556,7 +1581,7 @@ def fac_especialista_list(request):
     def __str__(self):
         return '%s ' % (self.filtroidcpp)
     
-    print('este es filtroidcpp: ',filtroidcpp)
+
     if filtrofechacpp:
         fac_especialista1 = fac_especialista.objects.filter(fechafac_esp__contains = filtrofechacpp)#aqui se filtran los objetos que cumplen el filtr de nombre
        
@@ -2404,17 +2429,16 @@ def cpp_proveedor_subdetalle_list(request, id_):
     distri = distribucion.objects.filter(proveedor = cpp_prov.proveedor.id)
     cpp_prov_detal = cpp_proveedor_detalle.objects.filter(cpp_proveedor = id_)
     cont_cpp_prov_detal = cpp_prov_detal.count()
-    print('cntador: ', cont_cpp_prov_detal)
+
     categ = categoria.objects.all() 
     cpp_prov_calcular = defprov(cc,distri,cpp_prov_detal,cpp_prov,categ)
     
     (resultado, iva_matriz, distrib_mat, mat_detalle) = cpp_prov_calcular.calcular_cpp_proveedor()
     
-    print('este es es la matriz resultado ',resultado)
+
 
     cont_sundetalle = cpp_proveedor_subdetalle.objects.filter(cpp_proveedor = id_).count()
     if cont_sundetalle == 0:#verificar que no se halla llenaod con anterioridad la matriz
-        print('prueba gas: ',categ.first().id, 'prueba gas actual: ',distri.last().producto.categoria.id)
         if categ.first().id == distri.last().producto.categoria.id:# se esta analizando un gas 
             contt = 0
             for i in cc:#recorrer el numero de centros de costo almacenados
@@ -2518,11 +2542,9 @@ def cpp_proveedor_subdetalle_list(request, id_):
             
                     sub_nu.save()     
         else:# se esta analizando un tipo sangre
-            print('entro en sangreeeee')
             
             contt = 0
             for i in cc:#recorrer el numero de centros de costo almacenados
-                print('estos son los i : ', i.id)
                 
                 if resultado[contt,0] != 0:#verificar que solo se ingresen los datos distintos de cero en la matriz "matriz_prov"
 
@@ -2555,10 +2577,8 @@ def cpp_proveedor_subdetalle_list(request, id_):
             #se calcula la cantidad de plata a retener
             total = sum(resultado[0:cc.count(),0])
             can_reten = total*cpp_prov.reten/100
-            print('aqui inicia el for', cuenta_auxx,'retencion', can_reten)
             
             for ww in cuenta_auxx:
-                print('nombre cuenta: 23 ; ', ww.id)
                 if ww.cuenta[0:4] == "2365":#esta cuenta es de retencion
                     
                     #aqui se hace el registro de la cuentra contra 
@@ -2746,8 +2766,22 @@ def cpp_prov_detalEdit(request, id_):
 def load_producto(request):
     categoria = request.GET.get('categoria')
     producto_1 = producto.objects.filter(categoria=categoria).order_by('nombre')
-    # print('centro_costo: ',centro_actividades)
     return render(request,'proveedores/load_producto.html',{'productos':producto_1})
+
+
+#centro ce costo desde cpp proveddor detalle 
+def load_cpp_prov_detalle(request):
+    producto = request.GET.get('producto')
+    filtro = distribucion.objects.filter(producto=producto)
+    centro_costo_copia = copy.copy(centro_costo.objects.all())
+    for i in centro_costo_copia:
+        cont = 0
+        for j in filtro:
+            if i.id == j.centro_costo.id:
+                cont += 1
+        if cont == 0:
+            i.delete()
+    return render(request,'proveedores/load_centro_costo.html',{'centro_costos':centro_costo_copia})
 
 
 #=====================================================================================================================================================================================================================================
@@ -2904,7 +2938,6 @@ def cpp_servi_detalle_list(request, id_):
     vector_distri = calcular_distri.distri_serv()
     
     cont_serv_detalle = cpp_servi_detalle.objects.filter(cpp_serv_public = id_).count()
-    print('distri', vector_distri)
     if cont_serv_detalle == 0:
         i = 0
         for j in distribu:
