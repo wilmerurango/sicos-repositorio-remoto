@@ -93,12 +93,102 @@ def mi_error_404(request):
     return page_not_found(request, template_name=nombre_template)
 
 
+class Reporte_Consolidado_excel(TemplateView):
+    
+    def get(self, request, *args, **kwargs):
+        procedimientos  = procedimiento.objects.all()
+        wb = Workbook()
+        ws = wb.active
+        ws['A1'] = 'REPORTE CONSOLIDADO DE LOS COSTOS DE LOS PROCEDIMIENTOS QUIRURGICOS'
+        
+        ws['A2']= 'Nombre_procedimiento'
+        ws['B2']= 'canasta'
+        ws['C2']= 'valor_canasta'
+        ws['D2']= 'desechable'
+        ws['E2']= 'medicamento'
+        ws['F2']='dispositivos'
+        ws['G2']= 'paquete_desechable'
+        ws['H2']= 'otro'
+        ws['I2']='papeleria'
+        ws['J2']= 'duracion'
+        ws['K2']= 'consul_anestecia'
+        ws['L2']='consul_especialista'
+        ws['M2']= 'total_consul'
+        ws['N2']= 'sal_instrument'
+        ws['O2']='sal_med_ayudante'
+        ws['P2']= 'sal_enfermera'
+        ws['Q2']= 'sal_total'
+        ws['R2']='honor_anestecio'
+        ws['S2']= 'dere_sala'
+        ws['T2']= 'valor_estancia'
+        ws['U2']='dias_estancia'
+        ws['V2']= 'valor_estancia_unit'
+        ws['W2']= 'honorario_Especialista'
+        ws['X2']='total'
+        ws['Y2']='ID_del_proc'
+        
+        #DATOS DE ENTRADA
+        name_cansta = nombre_canasta.objects.all()
+        honora = honorario.objects.all()
+        canast = canasta.objects.all()
+        salar = salario.objects.all()
+        procedi = procedimiento.objects.all()
+        estan = estancia.objects.all()
+        tipo_estan = tipo_estancia.objects.all()
+        constant = constante.objects.all()
+        escalar = 1
+        cont = 3
+        for i in procedimientos:
+            consul = consulta()
+            
+            temp_tipo_proc = tipo_proc.objects.get(id=i.tipo_proc.id)
+            tem_proc = procedimiento.objects.get(id=i.id)
+            
+            consul.tipo_proc = temp_tipo_proc
+            consul.procedimiento = tem_proc
+            
+            #FUNCION
+            datos = calculo(name_cansta,honora, consul, canast, salar, procedi, estan, tipo_estan,constant,escalar)
+            datos.resultado()
+            
+            ws.cell(row=cont, column = 1).value = format(consul.procedimiento)
+            ws.cell(row=cont, column = 2).value = datos.resultado()[0].nombre_canasta
+            ws.cell(row=cont, column = 3).value = round(datos.resultado()[1])
+            ws.cell(row=cont, column = 4).value = round(datos.resultado()[2])
+            ws.cell(row=cont, column = 5).value = round(datos.resultado()[3])
+            ws.cell(row=cont, column = 6).value = round(datos.resultado()[4])
+            ws.cell(row=cont, column = 7).value = round(datos.resultado()[5])
+            ws.cell(row=cont, column = 8).value = round(datos.resultado()[6])
+            ws.cell(row=cont, column = 9).value = round(datos.resultado()[7])
+            ws.cell(row=cont, column = 10).value = round(datos.resultado()[8])
+            ws.cell(row=cont, column = 11).value = round(datos.resultado()[9])
+            ws.cell(row=cont, column = 12).value = round(datos.resultado()[10])
+            ws.cell(row=cont, column = 13).value = round(datos.resultado()[11])
+            ws.cell(row=cont, column = 14).value = round(datos.resultado()[12])
+            ws.cell(row=cont, column = 15).value = round(datos.resultado()[13])
+            ws.cell(row=cont, column = 16).value = round(datos.resultado()[14])
+            ws.cell(row=cont, column = 17).value = round(datos.resultado()[15])
+            ws.cell(row=cont, column = 18).value =  round(datos.resultado()[16])
+            ws.cell(row=cont, column = 19).value = round(datos.resultado()[17])
+            ws.cell(row=cont, column = 20).value = round(datos.resultado()[18])
+            ws.cell(row=cont, column = 21).value = round(datos.resultado()[19])
+            ws.cell(row=cont, column = 22).value = round(datos.resultado()[20])
+            ws.cell(row=cont, column = 23).value = datos.resultado()[23]
+            ws.cell(row=cont, column = 24).value = datos.resultado()[22]
+            ws.cell(row=cont, column = 25).value = format(consul.procedimiento.id)
+            cont +=1
+        
+        nombre_reporte = "Reporte_Consolidado_de_procedimientos.xlsx"
+        response = HttpResponse(content_type="application/ms-excel")
+        content = "attachment; filename = {0}".format(nombre_reporte)
+        response['content-Disposition'] = content
+        wb.save(response)
+        return response
+
+    
 #vista de consulta de datos
 def consulta_info(request):
     consul = consulta.objects.all()#eso tambien es un dato de entrada como los que estan dentro del IF de abajo
-    
-   
-
     if request.method == 'POST' :
         form = consultaform(request.POST)
         if form.is_valid(): 
@@ -119,10 +209,12 @@ def consulta_info(request):
         estan = estancia.objects.all()
         tipo_estan = tipo_estancia.objects.all()
         constant = constante.objects.all()
-        
+        escalar = 0
         #FUNCION
-        datos = calculo(name_cansta,honora, consul, canast, salar, procedi, estan, tipo_estan,constant)
+        datos = calculo(name_cansta,honora, consul, canast, salar, procedi, estan, tipo_estan,constant, escalar)
         datos.resultado()
+        
+        maximo_honorario = datos.resultado()[21]
 
         print('esta es el objeto ',datos.resultado()[21])
         return render(request,'cirugia/consulta_info.html',{'form':form, 

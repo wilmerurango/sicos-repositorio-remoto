@@ -8,6 +8,8 @@
 
 {% block content %}
 
+<a class= "btn btn-success" onclick = "return DescargarConsolidado()" href= "{% url 'Reporte_consolidado_excel' %}" ><i class="fas fa-file-excel"></i> Exportar Consolidado</a>
+<hr>
     <div class="content col-sm-5 border border-success">
         <h3>Tabla de Consulta</h3>
         <form method="post" id="consulta_infor_form" data-proc-url="{% url 'lista_proc_ajax' %}"> 

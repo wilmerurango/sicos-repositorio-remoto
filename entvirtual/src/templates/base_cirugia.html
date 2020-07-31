@@ -93,8 +93,8 @@
 
     function mayus(e) {
       e.value = e.value.toUpperCase();
-  }
-
+    }
+    
     function habilitar()
     {
       var campo2 = document.getElementById("camp2");
@@ -117,7 +117,6 @@
       
     }
 
-
     function ConfirmDemo() 
     {
       var mensaje = confirm("¿Quieres Ver la Tabla Contable?");
@@ -127,6 +126,12 @@
     function ElimRegistro() 
     {
       var registro = confirm("¿Esta Seguro de Eliminar el registro?");
+      return registro
+    }
+
+    function DescargarConsolidado() 
+    {
+      var registro = confirm("¿Esta Seguro que desea descargar el Consolidado de los Procedimientos Quirurgicos?");
       return registro
     }
 

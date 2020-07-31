@@ -10,6 +10,7 @@ class calculo():
     obj7 = {}
     obj8 = {}
     obj9 = {}
+    scalar = 0
     
     def __init__(self,
                  objeto1 = 0,
@@ -21,6 +22,7 @@ class calculo():
                  objeto7 = 0,
                  objeto8 = 0,
                  objeto9 = 0,
+                 Scalar = 0,
                  ):
         self.obj1 = objeto1
         self.obj2 = objeto2
@@ -31,6 +33,7 @@ class calculo():
         self.obj7 = objeto7
         self.obj8 = objeto8
         self.obj9 = objeto9
+        self.scalar = Scalar
 
     def resultado(self):
         # obj1 = nombre_canasta
@@ -40,14 +43,19 @@ class calculo():
         # obj5 = salario
         # obj6 = procedimientos
         # obj7 = estancias
+        # scalar = opcion
 
         #CREAR UNA LISTA VACIA
         datos_obte = []
         
         #OBTENER EL NOMBRE DE LA CANASTA
-        consul_ultimo = self.obj3.last()#ultimo objeto del formulario de consulta (filtro de busqueda)
+        if self.scalar == 0:
+            consul_ultimo = self.obj3.last()#ultimo objeto del formulario de consulta (filtro de busqueda)
+        else:
+            consul_ultimo = self.obj3
+            
         canasta_honorario = self.obj2.filter(tipo_proc= consul_ultimo.tipo_proc.id).filter(procedimiento=consul_ultimo.procedimiento.id)#filtrar honortarios para obtener los registros del procedimiento buscado
-        print('canasta_honorario nombre',canasta_honorario.count())
+        print('canasta_honorario nombre: ',canasta_honorario.first())
         # dependinedo del numero de registros obtener el nombre de la canasta
         if canasta_honorario.count()==0:
             canasta_filtro = self.obj1.get(nombre_canasta="No tiene Canasta")
@@ -231,6 +239,7 @@ class calculo():
         total = round(maximo + (1+consul_ultimo.ganancia/100)*(valor_canasta + valor_estancia_tot + dere_sala + honor_anestecio + total_salario + total_consulta))
         
         datos_obte.append(total)
+        datos_obte.append(maximo)
         
         
         return datos_obte

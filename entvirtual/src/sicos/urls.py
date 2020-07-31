@@ -74,6 +74,7 @@ urlpatterns = [
     #CIRUGIA=============================================================================================================
     path('report_procediemtinso_excel/',Reporte_proc_excel.as_view(), name ='Reporte_proc_excel'),
     path('report_honorario_excel/',Reporte_Honorarios_excel.as_view(), name ='Reporte_honor_excel'),
+    path('Reporte_consolidado_excel/',Reporte_Consolidado_excel.as_view(), name ='Reporte_consolidado_excel'),
     
     
     #CONSULTA INFORMACION
